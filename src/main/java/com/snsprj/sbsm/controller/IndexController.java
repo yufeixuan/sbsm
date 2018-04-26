@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/index")
 public class IndexController {
 
-    @RequestMapping(value = "/hello/{name}", method = {RequestMethod.GET,RequestMethod.POST})
-    public String index(@PathVariable("name") String displayName){
+    @RequestMapping(value = "/hello/{name}", method = {RequestMethod.GET, RequestMethod.POST})
+    public String index(@PathVariable("name") String displayName) {
 
         return "Hello " + displayName;
     }

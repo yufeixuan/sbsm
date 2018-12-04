@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>CKEditor富文本编辑器</title>
+    <script src="../static/js/ckeditor5-build-classic/ckeditor.js"></script>
+    <script src="../static/js/ckeditor5-build-classic/translations/zh-cn.js"></script>
+</head>
+<body>
+
+<h1>Classic editor</h1>
+
+<label for="editor">
+    编辑
+</label>
+<textarea name="content" id="editor">
+        &lt;p&gt;This is some sample content.&lt;/p&gt;
+    </textarea>
+
+<button id="submit" value="提交">tijiao</button>
+<script>
+    let editor;
+
+    ClassicEditor
+    .create(document.querySelector('#editor'))
+    .then(newEditor => {
+        editor = newEditor;
+    })
+    .catch(error => {
+        console.error(error);
+    });
+
+    // Assuming there is a <button id="submit">Submit</button> in your application.
+    document.querySelector('#submit').addEventListener('click', () => {
+        const editorData = editor.getData();
+
+        console.log("====>run ....", editor);
+        console.log("====>" + editorData);
+        // ...
+    });
+</script>
+
+</body>
+</html>

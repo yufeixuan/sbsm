@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CAS登录页面</title>
+    <script src="../static/js/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+<header>
+    <nav>
+
+    </nav>
+
+</header>
+
+<footer>
+
+</footer>
+
+<h1>CAS登录页面</h1>
+<button id="btn_test" value="testXHR">测试</button>
+
+
+<script>
+    window.onload = function () {
+        $("h1").text("页面加载完成！");
+    };
+
+    $("#btn_test").click(function () {
+        $.ajax({
+            url: "http://localhost:8070/test/redirect",
+            data: {},
+            type: "POST",
+            dataType: "json",
+            success: function (data) {
+                var ticket = data['ticket'];
+                console.log(ticket);
+                window.location.href = "http://www.baidu.com";
+            },
+            error: function (data) {
+            }
+        });
+    });
+
+</script>
+</body>
+</html>

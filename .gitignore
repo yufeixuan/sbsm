@@ -29,7 +29,6 @@ mvnw
 mvnw.cmd
 .mvn
 
-src/main/resources/application-dev.yml
 .DS_Store
 
 

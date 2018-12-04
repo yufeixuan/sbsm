@@ -1,0 +1,63 @@
+spring:
+  #配置thymeleaf模版
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    cache: false
+    encoding: utf-8
+
+  mvc:
+    # 配置静态资源文件路径
+    static-path-pattern: /static/**
+  datasource:
+    url: jdbc:mysql://192.168.1.123:3306/sbsm?useUnicode=true&characterEncoding=UTF-8
+    username: foo
+    password: 123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  servlet:
+    #配置文件上传
+    multipart:
+      enabled: true
+      location:
+      max-file-size: 50Mb
+      max-request-size: 50Mb
+  redis:
+    host: 192.168.0.130
+    password: foo
+    port: 6379
+    jedis:
+      pool:
+        max-active: 8
+        max-idle: 8
+        max-wait: 6000ms
+  #Spring session配置session存储方式
+  session:
+    store-type: redis
+
+#配置项目启动端口
+server:
+  port: 8070
+  servlet:
+    context-path: /
+
+#配置mybatis
+mybatis:
+  type-aliases-package: com.snsprj.model
+  mapper-locations: classpath:com/snsprj/mapper/*.xml
+
+#FTP服务器配置
+ftp:
+  host: 192.168.0.175
+  port: 21
+  username: ftpuser
+  password: foo
+  nginx:
+    port: 8080 # nginx 开放的端口，访问ftp文件
+
+
+#log
+logging:
+  config: classpath:logback.xml
+
+

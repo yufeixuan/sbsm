@@ -29,6 +29,8 @@ public class UserServiceTest {
         String account = "";
         User user = new User();
         user.setAccount(account);
+        user.setPassword("123456");
+        user.setSalt("salt");
 
         userService.createUser(user);
 

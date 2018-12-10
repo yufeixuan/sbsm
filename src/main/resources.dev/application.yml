@@ -10,7 +10,7 @@ spring:
     # 配置静态资源文件路径
     static-path-pattern: /static/**
   datasource:
-    url: jdbc:mysql://192.168.0.204:3306/sbsm?useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://192.168.1.204:3306/sbsm?useUnicode=true&characterEncoding=UTF-8
     username: foo
     password: foo
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -22,15 +22,21 @@ spring:
       location:
       max-file-size: 50Mb
       max-request-size: 50Mb
+
   redis:
-    host: 192.168.0.130
+    host: 192.168.1.139
     password: foo
     port: 6379
+    database: 0
+
     jedis:
       pool:
         max-active: 8
-        max-idle: 8
+        max-idle: 8 # 最大空闲
         max-wait: 6000ms
+
+
+
   #Spring session配置session存储方式
   session:
     store-type: redis

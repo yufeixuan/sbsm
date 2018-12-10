@@ -64,7 +64,6 @@ public class JsonUtil {
         }
     }
 
-
     /**
      * json字符串反序列化成对象
      *
@@ -72,15 +71,14 @@ public class JsonUtil {
      * @param typeReference ex,new TypeReference<List<String>>(){}
      * @return T
      */
-    public static <T> T string2Obj(String str, TypeReference typeReference) {
+    public static <T> T string2Obj(String str, TypeReference<T> typeReference) {
 
         if (StringUtils.isBlank(str) || typeReference == null) {
             return null;
         }
 
         try {
-            return (T) (typeReference.getType().equals(String.class) ? str
-                    : objectMapper.readValue(str, typeReference));
+            return objectMapper.readValue(str, typeReference);
         } catch (IOException e) {
             e.printStackTrace();
             return null;

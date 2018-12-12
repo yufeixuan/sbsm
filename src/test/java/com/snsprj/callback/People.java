@@ -6,7 +6,7 @@ package com.snsprj.callback;
  **/
 public class People {
 
-    Printer printer = new Printer();
+    private Printer printer = new Printer();
 
     public void doPrint(Callback callback, String content){
 

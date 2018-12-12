@@ -1,8 +1,7 @@
 package com.snsprj.service.impl;
 
 import com.snsprj.service.AsyncService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +10,8 @@ import org.springframework.stereotype.Service;
  * @date 2018-09-04 16:47
  **/
 @Service
+@Slf4j
 public class AsyncServiceImpl implements AsyncService{
-
-    private Logger logger = LoggerFactory.getLogger(AsyncServiceImpl.class);
 
     /**
      * 执行异步任务
@@ -22,12 +20,12 @@ public class AsyncServiceImpl implements AsyncService{
     @Async("asyncServiceExecutor")
     public void executeAsync() {
 
-        logger.info("====>start executeAsync");
+        log.info("====>start executeAsync");
         try{
             Thread.sleep(5000);
         }catch(Exception e){
             e.printStackTrace();
         }
-        logger.info("====>end executeAsync");
+        log.info("====>end executeAsync");
     }
 }

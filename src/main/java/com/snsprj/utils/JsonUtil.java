@@ -9,9 +9,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * json 工具类
@@ -19,9 +18,8 @@ import org.slf4j.LoggerFactory;
  * @author SKH
  * @date 2018-06-13 09:40
  **/
+@Slf4j
 public class JsonUtil {
-
-    private static Logger logger = LoggerFactory.getLogger(JsonUtil.class);
 
     private static ObjectMapper objectMapper = new ObjectMapper();
 

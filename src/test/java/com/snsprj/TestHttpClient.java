@@ -7,17 +7,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author SKH
  * @date 2018-08-27 14:17
  **/
+@Slf4j
 public class TestHttpClient {
-
-    private Logger logger = LoggerFactory.getLogger(TestHttpClient.class);
 
     @Test
     public void testGet() {
@@ -43,7 +41,7 @@ public class TestHttpClient {
 
         String userInfoJson = JsonUtil.obj2String(userInfo);
 
-        logger.info("====> userInfoJson is {}", userInfoJson);
+        log.info("====> userInfoJson is {}", userInfoJson);
 
         String url = "http://localhost:8070/test/post1";
 

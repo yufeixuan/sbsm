@@ -8,8 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,9 +23,8 @@ import org.springframework.web.multipart.MultipartFile;
  * @date 2018-09-14 09:29
  **/
 @Controller
+@Slf4j
 public class FileController {
-
-    private Logger logger = LoggerFactory.getLogger(FileController.class);
 
     @Autowired
     private FTPService ftpService;
@@ -46,7 +44,7 @@ public class FileController {
         Map<String, Object> retMap = new HashMap<>();
         if (file == null){
 
-            logger.info("====> upload file is null!");
+            log.info("====> upload file is null!");
             retMap.put("error","upload file is null!");
             return JsonUtil.obj2String(retMap);
         }
@@ -65,7 +63,7 @@ public class FileController {
             InputStream inputStream = file.getInputStream();
             filePath = ftpService.uploadFile(fileName, ConstCodeFTP.FILE_PATH, inputStream);
 
-            logger.info("====>upload file to FTP server, filePath is {}", filePath);
+            log.info("====>upload file to FTP server, filePath is {}", filePath);
         }catch (IOException e){
             e.printStackTrace();
         }

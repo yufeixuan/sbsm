@@ -3,8 +3,7 @@ package com.snsprj.service.impl;
 import com.snsprj.service.FTPService;
 import com.snsprj.utils.FTPUtil;
 import java.io.InputStream;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +12,8 @@ import org.springframework.stereotype.Service;
  * @date 2018-10-16 17:45
  **/
 @Service
+@Slf4j
 public class FTPServiceImpl implements FTPService {
-
-    private Logger logger = LoggerFactory.getLogger(FTPServiceImpl.class);
 
     @Value("${ftp.host}")
     private String ftpHost;
@@ -44,7 +42,7 @@ public class FTPServiceImpl implements FTPService {
     @Override
     public String uploadFile(String fileName, String pathName, InputStream inputStream) {
 
-        logger.info("====>upload file to ftp server, fileName is {}, pathName is {},"
+        log.info("====>upload file to ftp server, fileName is {}, pathName is {},"
                 + " ftpNginxPort is {}", fileName, pathName, ftpNginxPost);
 
         FTPUtil ftpUtil = new FTPUtil(ftpHost, ftpPort, ftpUsername, ftpPassword);
@@ -69,7 +67,7 @@ public class FTPServiceImpl implements FTPService {
     @Override
     public boolean deleteFile(String pathName) {
 
-        logger.info("====>delete file from ftp, pathName is {}", pathName);
+        log.info("====>delete file from ftp, pathName is {}", pathName);
 
         FTPUtil ftpUtil = new FTPUtil(ftpHost, ftpPort, ftpUsername, ftpPassword);
 

@@ -6,9 +6,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author SKH
@@ -16,14 +15,14 @@ import org.slf4j.LoggerFactory;
  * @description
  * @date 2018-06-07 14:45
  **/
+@Slf4j
 public class TestStringUtils {
 
-    private static final Logger logger = LoggerFactory.getLogger(TestStringUtils.class);
 
     @Test
     public void test() {
 
-        logger.info("boot");
+        log.info("boot");
 
         List<String> memberList = new ArrayList<>();
 
@@ -32,7 +31,7 @@ public class TestStringUtils {
         memberList.add("tony");
 
         for (String str : memberList) {
-            logger.info("member is {},{}", str, str);
+            log.info("member is {},{}", str, str);
         }
     }
 

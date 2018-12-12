@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -25,8 +26,6 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * httpClient工具类
@@ -34,9 +33,10 @@ import org.slf4j.LoggerFactory;
  * @author SKH
  * @date 2018-06-07 14:59
  **/
+@Slf4j
 public class HttpUtil {
 
-    private static Logger logger = LoggerFactory.getLogger(HttpUtil.class);
+
 
     private static final String utf8 = "utf-8";
 
@@ -53,7 +53,7 @@ public class HttpUtil {
      */
     public static String doGet(String url, Map<String, Object> paramMap) {
 
-        logger.info("====> request url is {}, params is {}", url, JsonUtil.obj2String(paramMap));
+        log.info("====> request url is {}, params is {}", url, JsonUtil.obj2String(paramMap));
 
         try {
             String protocol = StringUtils.substringBefore(url, ":");
@@ -89,7 +89,7 @@ public class HttpUtil {
      */
     public static String doPost(String url, Map<String, Object> paramMap) {
 
-        logger.info("====>request url is {}, params is {}", url, JsonUtil.obj2String(paramMap));
+        log.info("====>request url is {}, params is {}", url, JsonUtil.obj2String(paramMap));
 
         Map<String, String> headers = new HashMap<>();
 
@@ -106,7 +106,7 @@ public class HttpUtil {
      */
     public static String doPostJson(String url, Object object, Map<String, Object> paramMap) {
 
-        logger.info("====>request url is {}, object is {}, params is {}",
+        log.info("====>request url is {}, object is {}, params is {}",
                 url, object, JsonUtil.obj2String(paramMap));
 
         Map<String, String> headers = new HashMap<>();
@@ -169,7 +169,7 @@ public class HttpUtil {
     private static String doPost(String url, Map<String, String> headers,
             Map<String, Object> paramMap) {
 
-        logger.info("====>request url is {}, header is {}, params is {}", url,
+        log.info("====>request url is {}, header is {}, params is {}", url,
                 JsonUtil.obj2String(headers), JsonUtil.obj2String(paramMap));
 
         try {
@@ -288,13 +288,13 @@ public class HttpUtil {
 
         try (CloseableHttpResponse response = httpclient.execute(request)) {
 
-            logger.info("====>request code is {}", response.getStatusLine().toString());
+            log.info("====>request code is {}", response.getStatusLine().toString());
 
             HttpEntity entity = response.getEntity();
 
             if (entity != null) {
                 result = EntityUtils.toString(entity, utf8);
-                logger.info("====> result is {}", result);
+                log.info("====> result is {}", result);
             }
             // do something useful with the response body
             // and ensure it is fully consumed

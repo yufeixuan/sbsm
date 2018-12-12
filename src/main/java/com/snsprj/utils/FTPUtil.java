@@ -2,10 +2,9 @@ package com.snsprj.utils;
 
 import java.io.IOException;
 import java.io.InputStream;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * ftp工具类
@@ -13,9 +12,8 @@ import org.slf4j.LoggerFactory;
  * @author SKH
  * @date 2018-09-18 16:30
  **/
+@Slf4j
 public class FTPUtil {
-
-    private static Logger logger = LoggerFactory.getLogger(FTPUtil.class);
 
     /**
      * FTP服务器地址
@@ -71,7 +69,7 @@ public class FTPUtil {
             ftpClient.storeFile(fileName, inputStream);
             inputStream.close();
             ftpClient.logout();
-            logger.info("====>uploadFile success! fileName is {}, pathName is {}", fileName,
+            log.info("====>uploadFile success! fileName is {}, pathName is {}", fileName,
                     pathName);
 
 
@@ -102,7 +100,7 @@ public class FTPUtil {
      */
     public boolean deleteFile(String pathName, String fileName) {
 
-        logger.info("====>delete file from FTP, pathName is {}, fileName is {}", pathName, fileName);
+        log.info("====>delete file from FTP, pathName is {}, fileName is {}", pathName, fileName);
 
         return this.deleteFile(pathName + fileName);
     }
@@ -116,7 +114,7 @@ public class FTPUtil {
      */
     public boolean deleteFile(String pathName) {
 
-        logger.info("====>delete file from FTP, pathName is {}", pathName);
+        log.info("====>delete file from FTP, pathName is {}", pathName);
 
         FTPClient ftpClient = new FTPClient();
         try {
@@ -167,7 +165,7 @@ public class FTPUtil {
         int replyCode = ftpClient.getReplyCode();
         if (!FTPReply.isPositiveCompletion(replyCode)) {
 
-            logger.info("====>connect ftp filed, host is {}, port is {}, username is {},"
+            log.info("====>connect ftp filed, host is {}, port is {}, username is {},"
                     + " password is {}", hostname, port, username, password);
             return null;
         } else {

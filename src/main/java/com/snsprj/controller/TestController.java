@@ -7,8 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,9 +21,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
  **/
 @Controller
 @RequestMapping("/test")
+@Slf4j
 public class TestController {
-
-    private Logger logger = LoggerFactory.getLogger(TestController.class);
 
     @Autowired
     private AsyncService asyncService;
@@ -35,7 +33,7 @@ public class TestController {
             @RequestParam("name") String name) {
 
         String sex = request.getParameter("sex");
-        logger.info("====>name is {}, sex is {}", name, sex);
+        log.info("====>name is {}, sex is {}", name, sex);
 
         return name;
     }
@@ -51,9 +49,9 @@ public class TestController {
             @RequestParam(value = "name", required = false) String username) {
 
         String nickname = userInfo.getNickname();
-        logger.info("====>nickname is {}", nickname);
+        log.info("====>nickname is {}", nickname);
 
-        logger.info("====> username is {}", username);
+        log.info("====> username is {}", username);
 
         return "success";
     }
@@ -74,18 +72,18 @@ public class TestController {
 
         if (nameList != null){
             for (String name : nameList){
-                logger.info("====> name is {}", name);
+                log.info("====> name is {}", name);
             }
         }
 
         if (ageList != null){
 
             for (Integer age : ageList){
-                logger.info("====> age is {}", age);
+                log.info("====> age is {}", age);
             }
         }
 
-        logger.info("====>classId is {}", classId);
+        log.info("====>classId is {}", classId);
 
         return "success";
     }
@@ -98,9 +96,9 @@ public class TestController {
     @ResponseBody
     public String testAsync() {
 
-        logger.info("====>testAsync start");
+        log.info("====>testAsync start");
         asyncService.executeAsync();
-        logger.info("====>testAsync end");
+        log.info("====>testAsync end");
 
         return "success";
     }

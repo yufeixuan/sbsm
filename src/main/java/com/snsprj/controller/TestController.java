@@ -3,13 +3,16 @@ package com.snsprj.controller;
 import com.snsprj.common.ServerResponse;
 import com.snsprj.model.UserInfo;
 import com.snsprj.service.AsyncService;
+import com.snsprj.service.TestService;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.io.ResolverUtil.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,6 +29,9 @@ public class TestController {
 
     @Autowired
     private AsyncService asyncService;
+
+    @Autowired
+    private TestService testService;
 
     @RequestMapping("/get")
     @ResponseBody
@@ -138,5 +144,15 @@ public class TestController {
 
         session.setAttribute("name","ookokoko");
         return ServerResponse.createBySuccess();
+    }
+
+    /**
+     * 测试redis计数器
+     */
+    @GetMapping("/redis/decrease")
+    @ResponseBody
+    public void testRedisDecrease(){
+
+        testService.testRedis();
     }
 }

@@ -87,7 +87,7 @@ public final class RedisUtil {
     }
 
     /**
-     * 普通缓存放入，String类型
+     * String放入缓存
      *
      * @param key key
      * @param value value
@@ -104,7 +104,23 @@ public final class RedisUtil {
     }
 
     /**
-     * 普通缓存放入并设置过期时间（秒），String类型
+     * String放入缓存，只有key不存在的情况下才会放入缓存中
+     *
+     * @param key key
+     * @param value value
+     * @return true/false
+     */
+    public boolean setNX(String key, Object value) {
+        try {
+            return redisTemplate.opsForValue().setIfAbsent(key, value);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * String放入缓存并设置过期时间（秒），只有key不存在的情况下才会放入缓存中
      *
      * @param key key
      * @param value value
@@ -117,6 +133,27 @@ public final class RedisUtil {
                 redisTemplate.opsForValue().set(key, value, time, TimeUnit.SECONDS);
             } else {
                 set(key, value);
+            }
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * String放入缓存并设置过期时间（秒），String类型
+     *
+     * @param key key
+     * @param value value
+     * @param time 时间(秒) time要大于0 如果time小于等于0 将设置无限期
+     * @return true/false
+     */
+    public boolean setNX(String key, Object value, long time) {
+        try {
+            redisTemplate.opsForValue().setIfAbsent(key, value);
+            if (time > 0) {
+                expire(key, time);
             }
             return true;
         } catch (Exception e) {

@@ -2,6 +2,7 @@ package com.snsprj.redis;
 
 import com.snsprj.utils.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,18 @@ public class TestRedis {
         long expireTime = redisUtil.getExpire(key);
 
         log.info("====>expireTime is {}",expireTime);
+    }
 
+    /**
+     * 测试get方法
+     */
+    @Test
+    public void getTest(){
+
+        String key = "notExistKey";
+//        Object value = redisUtil.get(key);
+        Integer value = (Integer) redisUtil.get(key);
+
+        Assert.assertNull(value);
     }
 }

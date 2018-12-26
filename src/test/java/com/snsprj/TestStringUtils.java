@@ -1,13 +1,10 @@
 package com.snsprj;
 
 import com.snsprj.utils.JsonUtil;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
+
+import java.util.*;
 
 /**
  * @author SKH
@@ -79,5 +76,16 @@ public class TestStringUtils {
         if (object instanceof List){
 
         }
+    }
+
+    @Test
+    public void testStringSplit(){
+
+        String str = "boo|and|foo";
+
+        String[] resultArr = str.split("[|]",7);
+
+        log.info("====>resultArr is {}", resultArr);
+
     }
 }

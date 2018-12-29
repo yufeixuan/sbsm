@@ -86,6 +86,55 @@ public class TestStringUtils {
         String[] resultArr = str.split("[|]",7);
 
         log.info("====>resultArr is {}", resultArr);
-
     }
+
+    @Test
+    public void testDoWhile(){
+
+        int indexA = 10;
+        int indexB = 10;
+        int indexC = 10;
+
+        do {
+
+            if (indexA <= 0){
+                log.info("process is return!");
+                return;
+            }
+            indexA --;
+        }while (true);
+    }
+
+    @Test
+    public void test2(){
+
+        int a = 1;
+        int b = 0;
+
+        try {
+            int c = a/b;
+        }catch (Exception e){
+            log.error(e.getMessage() + e);
+            e.printStackTrace();
+//            log.error("error is {}", e);
+        }
+    }
+
+    @Test
+    public void test3(){
+
+        String path = "123";
+        Map<String, Object> objectMap= new HashMap<>();
+        objectMap.put(path, null);
+
+        try {
+            long orgId = (long) objectMap.get(path);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
 }

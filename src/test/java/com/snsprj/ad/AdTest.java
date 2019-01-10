@@ -1,6 +1,7 @@
 package com.snsprj.ad;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.naming.*;
 import javax.naming.directory.*;
@@ -135,12 +136,13 @@ public class AdTest {
         }
     }
 
-    private static void getADLDAPdataByPage(String host, int port, String username, String password) {
+    private static void getAdLdapDataByPage(String host, int port, String username, String password, String baseDN,
+                                            String searchFilter, String[] returnedAttributes) {
 
         String company = "";
 
         // 用于保存所有同步的信息
-        List<Map<String, String >> recordList = new ArrayList<>();
+        List<Map<String, String>> recordList = new ArrayList<>();
 
         Hashtable<String, String> adEnv = new Hashtable<>();
 
@@ -173,23 +175,24 @@ public class AdTest {
             // 分页控制器
             ldapContext.setRequestControls(new Control[]{new PagedResultsControl(pageSize, Control.CRITICAL)});
 
-            String domain = "DC=snsprj,DC=cn";
-
-            // user表示用户，group表示组
-            String searchFilter = "(&(objectCategory=person)(objectClass=user))";
-
             SearchControls searchControl = new SearchControls();
             searchControl.setSearchScope(SearchControls.SUBTREE_SCOPE);
 
             // 定制返回的属性
-            String[] returnedAttributes = {"uSNCreated", "name", "instanceType", "ou"};
-            searchControl.setReturningAttributes(returnedAttributes);
+            if (returnedAttributes != null && returnedAttributes.length > 0) {
+                searchControl.setReturningAttributes(returnedAttributes);
+            }
+
+            if (StringUtils.isBlank(searchFilter)) {
+                // 如果没设置过滤条件则使用默认过滤
+                searchFilter = "(objectClass=*)";
+            }
 
             do {
                 // 根据设置的域节点、过滤器类、搜索控制器去搜索LDAP得到结果
-                NamingEnumeration answer = ldapContext.search(domain, searchFilter, searchControl);
+                NamingEnumeration answer = ldapContext.search(baseDN, searchFilter, searchControl);
 
-                while (null != answer && answer.hasMoreElements()){
+                while (null != answer && answer.hasMoreElements()) {
 
                     SearchResult searchResult = (SearchResult) answer.next();
 
@@ -200,15 +203,15 @@ public class AdTest {
                     // 得到符合条件的属性集
                     Attributes attributes = searchResult.getAttributes();
 
-                    if (attributes != null){
+                    if (attributes != null) {
 
                         Map<String, String> row = new HashMap<>();
 
-                        for (NamingEnumeration ne = attributes.getAll();ne.hasMore();){
+                        for (NamingEnumeration ne = attributes.getAll(); ne.hasMore(); ) {
 
                             Attribute attribute = (Attribute) ne.next();
 
-                            for (NamingEnumeration e = attribute.getAll();e.hasMore();){
+                            for (NamingEnumeration e = attribute.getAll(); e.hasMore(); ) {
 
                                 company = e.next().toString();
 
@@ -218,11 +221,10 @@ public class AdTest {
                             row.put(attribute.getID(), company);
                         }
 
-                        row.put("userDN",dn);
+                        row.put("userDN", dn);
                         recordList.add(row);
                     }
                 }
-
 
                 Control[] controls = ldapContext.getRequestControls();
                 if (controls != null) {
@@ -239,6 +241,7 @@ public class AdTest {
 
             ldapContext.close();
 
+            log.info("recordList is {}", recordList);
 
         } catch (NamingException | IOException e) {
             e.printStackTrace();
@@ -251,8 +254,21 @@ public class AdTest {
         String password = "UUsafe916";
         int port = 389;
         String host = "192.168.3.88";
+        String baseDN = "DC=snsprj,DC=cn";
+        String[] returnedAttributes = {};
+        String searchFilter = null;
+//        String[] returnedAttributes = {"uSNCreated", "name", "instanceType", "ou"};
+//        String searchFilter = "(&(objectCategory=person)(objectClass=user))";
+
+//        String username = "s-app@aac.com";
+//        String password = "AAC#1234abcde";
+//        int port = 389;
+//        String host = "sz.ldap.aac.com";
+//        String baseDN = "DC=aac,DC=com";
+//        String[] returnedAttributes = {"uSNCreated", "name", "instanceType", "ou"};
+//        String searchFilter = "(&(objectCategory=person)(objectClass=user))";
 
 //        AdTest.connect(host, port, username, password);
-        AdTest.getADLDAPdataByPage(host, port, username, password);
+        AdTest.getAdLdapDataByPage(host, port, username, password, baseDN, searchFilter, returnedAttributes);
     }
 }

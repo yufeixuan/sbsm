@@ -4,6 +4,8 @@ import com.snsprj.mapper.UserMapper;
 import com.snsprj.model.User;
 import com.snsprj.model.UserExample;
 import java.util.List;
+
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Slf4j
 public class UserServiceTest {
 
     @Autowired
@@ -23,10 +26,10 @@ public class UserServiceTest {
     private UserMapper userMapper;
 
     @Test
-    @Transactional
+//    @Transactional
     public void userCreateTest(){
 
-        String account = "";
+        String account = "😭😄🍌";
         User user = new User();
         user.setAccount(account);
         user.setPassword("123456");
@@ -37,6 +40,23 @@ public class UserServiceTest {
         UserExample userExample = new UserExample();
         userExample.createCriteria().andAccountEqualTo(account);
         List<User> userList = userMapper.selectByExample(userExample);
+
+        log.info("userAccount is {}", userList.get(0).getAccount());
+
+        Assert.assertEquals(1, userList.size());
+    }
+
+    @Test
+//    @Transactional
+    public void test(){
+
+        String account = "😭😄🍌";
+
+        UserExample userExample = new UserExample();
+        userExample.createCriteria().andAccountEqualTo(account);
+        List<User> userList = userMapper.selectByExample(userExample);
+
+        log.info("userAccount is {}", userList.get(0).getAccount());
 
         Assert.assertEquals(1, userList.size());
     }

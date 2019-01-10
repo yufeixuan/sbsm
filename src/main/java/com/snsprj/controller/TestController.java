@@ -8,15 +8,13 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import com.vdurmont.emoji.EmojiParser;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.io.ResolverUtil.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author SKH
@@ -154,5 +152,23 @@ public class TestController {
     public void testRedisDecrease(){
 
         testService.testRedis();
+    }
+
+    /**
+     * 测试emoji
+     */
+    @RequestMapping("/emoji")
+    @ResponseBody
+    public ServerResponse testEmoji(@RequestParam(value = "emojiStr") String emojiStr){
+
+        log.info("web前端传递的字符串 {}",emojiStr);
+
+        // 把字符串中emoji转义
+        String emojiStrParseToAliases = EmojiParser.parseToAliases(emojiStr);
+        log.info("====>替换后的字符串 {}",emojiStrParseToAliases);
+
+        String pureStr = "你哈，:joy::cry:";
+        String pureStrPare2Unicode = EmojiParser.parseToUnicode(pureStr);
+        return ServerResponse.createBySuccess(pureStrPare2Unicode);
     }
 }

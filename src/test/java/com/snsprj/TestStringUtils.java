@@ -105,8 +105,11 @@ public class TestStringUtils {
         }while (true);
     }
 
+    /**
+     * 测试log4j对异常的打印
+     */
     @Test
-    public void test2(){
+    public void exceptionTest(){
 
         int a = 1;
         int b = 0;
@@ -114,9 +117,10 @@ public class TestStringUtils {
         try {
             int c = a/b;
         }catch (Exception e){
-            log.error(e.getMessage() + e);
-            e.printStackTrace();
+//            log.error(e.getMessage() + e);
+//            e.printStackTrace();
 //            log.error("error is {}", e);
+            log.error("error is ", e);
         }
     }
 
@@ -134,7 +138,49 @@ public class TestStringUtils {
         }
     }
 
+    @Test
+    public void test4(){
 
+        String domain = "DC=SNSPRJ,DC=CN";
+
+        //distinguishedName
+//        String path = "CN=张三,OU=食材采购部,OU=后厨部,OU=同福客栈,DC=snsprj,DC=cn";
+
+        String path = "OU=食材采购部,OU=后厨部,OU=同福客栈,DC=snsprj,DC=cn";
+
+        String pathStr = path.substring(0, path.toUpperCase().indexOf("," + domain));
+        log.info("====>pathStr is {}", pathStr);
+
+
+        String baseDN = "OU=同福客栈";
+        String[] sp = baseDN.split(",");
+
+        if (pathStr.toUpperCase().contains("CN=")) {
+            String[] split = pathStr.split(",");
+            for (int i = split.length - sp.length - 1; i > 0; i--) {
+                // 如果是吉大ldap过滤"t="字段，否则带"t="使用下面的公共解析方法有错误
+                if (!split[i].contains("t=")) {
+                    String[] strOu = split[i].split("=");
+                    if (strOu.length >= 2) {
+                        String orgName = strOu[1];
+                        log.info("====>orgName is {}", orgName);
+//                        list.add(orgName);
+                    }
+                }
+            }
+        }
+    }
+
+    @Test
+    public void test5(){
+        // 1546847008167
+        System.out.println(System.currentTimeMillis());
+
+        Map<String,Object> testMap = new HashMap<>();
+        testMap.put("key","va;iue");
+
+        log.info("====>map is {}", testMap);
+    }
 
 
 }

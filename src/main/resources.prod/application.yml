@@ -10,7 +10,7 @@ spring:
     # 配置静态资源文件路径
     static-path-pattern: /static/**
   datasource:
-    url: jdbc:mysql://192.168.1.123:3306/sbsm?useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://192.168.1.123:3306/sbsm?useSSL=false&useUnicode=true&characterEncoding=UTF-8
     username: foo
     password: 123
     driver-class-name: com.mysql.cj.jdbc.Driver

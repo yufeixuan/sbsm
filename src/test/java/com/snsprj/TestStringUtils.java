@@ -1,9 +1,12 @@
 package com.snsprj;
 
 import com.snsprj.utils.JsonUtil;
+import com.vdurmont.emoji.EmojiParser;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 /**
@@ -183,4 +186,25 @@ public class TestStringUtils {
     }
 
 
+    @Test
+    public void emojiTest(){
+
+        String pureStr = "你哈，:joy::cry:";
+        String pureStrPare2Unicode = EmojiParser.parseToUnicode(pureStr);
+        log.info("{}", pureStrPare2Unicode);
+    }
+
+    /**
+     * 获取当天还剩余多少秒
+     */
+    @Test
+    public void dayLeftSecondsTest(){
+
+        LocalDateTime midnight = LocalDateTime.now().plusDays(1).withHour(0).withMinute(0).withSecond(0).withNano(0);
+        long millSeconds = ChronoUnit.MILLIS.between(LocalDateTime.now(),midnight);
+        int seconds = (int) ChronoUnit.SECONDS.between(LocalDateTime.now(), midnight);
+        System.out.println("当天剩余毫秒：" + millSeconds);
+        System.out.println("当天剩余秒：" + seconds);
+
+    }
 }

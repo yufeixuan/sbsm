@@ -42,4 +42,20 @@ public class TestRedis {
 
         Assert.assertNull(value);
     }
+
+    @Test
+    public void setTest(){
+
+        try {
+            boolean isSuccess = redisUtil.set("name", null);
+
+            if (isSuccess){
+                log.info("====>保存成功");
+            }else {
+                log.info("====>保存失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

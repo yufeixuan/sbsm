@@ -3,6 +3,7 @@ package com.snsprj;
 import com.snsprj.utils.JsonUtil;
 import com.vdurmont.emoji.EmojiParser;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
 import java.time.LocalDateTime;
@@ -206,5 +207,20 @@ public class TestStringUtils {
         System.out.println("当天剩余毫秒：" + millSeconds);
         System.out.println("当天剩余秒：" + seconds);
 
+    }
+
+    @Test
+    public void testSubString(){
+
+//        String str = "CN=吕轻侯,OU=财务部,OU=同福客栈,DC=snsprj,DC=cn";
+        String str = "CN=张三,OU=食材采购部,OU=后厨部,OU=同福客栈,DC=snsprj,DC=cn";
+
+
+        String[] tempArr = StringUtils.split(str,",");
+        int arrLength = tempArr.length;
+
+        String entryDn = tempArr[arrLength - 2].split("=")[1] + "." + tempArr[arrLength - 1].split("=")[1];
+
+        log.info("====>entryDn is {}", entryDn);
     }
 }

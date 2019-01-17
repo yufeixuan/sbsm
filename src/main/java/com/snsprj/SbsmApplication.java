@@ -18,10 +18,13 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @MapperScan("com.snsprj.mapper")
 public class SbsmApplication extends SpringBootServletInitializer{
 
+    // war包
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
         return builder.sources(SbsmApplication.class);
     }
+
+//public class SbsmApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(SbsmApplication.class, args);

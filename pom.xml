@@ -183,7 +183,8 @@
     </dependencies>
 
     <build>
-
+        <!--指定打包名称-->
+        <finalName>${project.artifactId}</finalName>
         <plugins>
 
             <plugin>

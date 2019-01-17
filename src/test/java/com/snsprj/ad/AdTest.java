@@ -250,7 +250,10 @@ public class AdTest {
 
     public static void main(String[] args) {
 
-        String username = "SNSPRJ\\Administrator";
+//        String username = "SNSPRJ\\Administrator";
+//        String username = "lvqinghou@snsprj.cn";
+
+        String username = "CN=张三,OU=食材采购部,OU=后厨部,OU=同福客栈,DC=snsprj,DC=cn";
         String password = "UUsafe916";
         int port = 389;
         String host = "192.168.3.88";

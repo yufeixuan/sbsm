@@ -48,6 +48,9 @@
         <table schema="sbsm" tableName="users" domainObjectName="User">
             <generatedKey column="id" sqlStatement="MySql" identity="true" />
         </table>
+        <table schema="sbsm" tableName="quartz_jobs" domainObjectName="QuartzJob">
+            <generatedKey column="id" sqlStatement="MySql" identity="true" />
+        </table>
     </context>
 
 </generatorConfiguration>

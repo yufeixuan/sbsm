@@ -11,8 +11,8 @@ spring:
     static-path-pattern: /static/**
   datasource:
     url: jdbc:mysql://192.168.3.83:3306/sbsm?useSSL=false
-    username: foo
-    password: foo
+    username: sbsm
+    password: sbsm
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   servlet:
@@ -24,8 +24,8 @@ spring:
       max-request-size: 50Mb
 
   redis:
-    host: 192.168.3.53
-    password: foo
+    host: 192.168.3.83
+#    password: foo
     port: 6379
     database: 0
 

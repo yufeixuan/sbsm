@@ -2,6 +2,7 @@ package com.snsprj.controller;
 
 import com.snsprj.common.ServerResponse;
 import com.snsprj.quartz.QuartzManager;
+import org.quartz.JobDataMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,8 +35,10 @@ public class QuartzController {
         @RequestParam("jobClass") String jobClass,
         @RequestParam("cronExpression") String cronExpression) throws ClassNotFoundException {
 
+        JobDataMap jobDataMap = new JobDataMap();
+        jobDataMap.put("name", "xiaohb");
         Class jobClazz = Class.forName(jobClass);
-        quartzManager.addJob(jobName, jobGroupName, jobName, null, jobClazz, cronExpression);
+        quartzManager.addJob(jobName, jobGroupName, jobName, null, jobClazz, cronExpression, jobDataMap);
         return ServerResponse.createBySuccess();
     }
 
@@ -61,7 +64,6 @@ public class QuartzController {
      * @param jobName 任务名称
      * @param jobGroupName 任务组名称
      * @param cronExpression 定时任务时间表达式
-     * @return
      */
     @RequestMapping("/update")
     @ResponseBody

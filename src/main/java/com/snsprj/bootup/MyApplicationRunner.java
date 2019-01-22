@@ -5,6 +5,7 @@ import com.snsprj.model.QuartzJob;
 import com.snsprj.model.QuartzJobExample;
 import com.snsprj.quartz.QuartzManager;
 import lombok.extern.slf4j.Slf4j;
+import org.quartz.JobDataMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -51,7 +52,10 @@ public class MyApplicationRunner implements ApplicationRunner {
 
             Class jobClass = Class.forName(referenceClass);
 
-            quartzManager.addJob(jobName, jobGroupName, triggerName, triggerGroupName, jobClass, cronExpression);
+            JobDataMap jobDataMap = new JobDataMap();
+            jobDataMap.put("name","xiaohb");
+            quartzManager
+                .addJob(jobName, jobGroupName, triggerName, triggerGroupName, jobClass, cronExpression, jobDataMap);
 
             log.info("====>add job, jobName is {}", jobName);
         }

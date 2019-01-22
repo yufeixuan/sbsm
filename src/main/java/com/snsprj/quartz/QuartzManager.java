@@ -23,11 +23,12 @@ public class QuartzManager {
      * @param cron 定时任务表达式 0/1 * * * * ?
      */
     public void addJob(String jobName, String jobGroupName,
-                              String triggerName, String triggerGroupName, Class jobClass, String cron) {
+        String triggerName, String triggerGroupName, Class jobClass, String cron, JobDataMap jobDataMap) {
 
         try {
             // 任务名、任务组名、任务执行类
-            JobDetail jobDetail = JobBuilder.newJob(jobClass).withIdentity(jobName, jobGroupName).build();
+            JobDetail jobDetail = JobBuilder.newJob(jobClass).withIdentity(jobName, jobGroupName)
+                .usingJobData(jobDataMap).build();
 
             // 触发器
             TriggerBuilder<Trigger> triggerBuilder = TriggerBuilder.newTrigger();
@@ -66,7 +67,7 @@ public class QuartzManager {
      * @param cron 定时任务表达式
      */
     public void modifyJobTime(String jobName,
-                                     String jobGroupName, String triggerName, String triggerGroupName, String cron) {
+        String jobGroupName, String triggerName, String triggerGroupName, String cron) {
 
         try {
             TriggerKey triggerKey = TriggerKey.triggerKey(triggerName, triggerGroupName);
@@ -75,7 +76,8 @@ public class QuartzManager {
 
             if (trigger == null) {
 
-                log.info("====>trigger is null, triggerName is {}, triggerGroupName is {}", triggerName, triggerGroupName);
+                log.info("====>trigger is null, triggerName is {}, triggerGroupName is {}", triggerName,
+                    triggerGroupName);
                 return;
             }
 
@@ -104,7 +106,6 @@ public class QuartzManager {
                 JobDetail jobDetail = scheduler.getJobDetail(JobKey.jobKey(jobName, jobGroupName));
                 Class<? extends Job> jobClass = jobDetail.getJobClass();
 
-
                 // 方式2： 先删除，然后创建一个新的job -- end
             }
 
@@ -122,7 +123,7 @@ public class QuartzManager {
      * @param triggerGroupName 触发器组名称
      */
     public void removeJob(String jobName, String jobGroupName,
-                                 String triggerName, String triggerGroupName) {
+        String triggerName, String triggerGroupName) {
 
         try {
             TriggerKey triggerKey = TriggerKey.triggerKey(triggerName, triggerGroupName);
@@ -143,7 +144,7 @@ public class QuartzManager {
     /**
      * 启动所有定时任务
      */
-    public void startJobs(){
+    public void startJobs() {
 
         try {
             scheduler.start();
@@ -155,10 +156,10 @@ public class QuartzManager {
     /**
      * 关闭所有定时任务
      */
-    public void shutdownJobs(){
+    public void shutdownJobs() {
 
         try {
-            if (!scheduler.isShutdown()){
+            if (!scheduler.isShutdown()) {
                 scheduler.shutdown();
             }
         } catch (SchedulerException e) {

@@ -26,8 +26,18 @@ public class QuartzManager {
         String triggerName, String triggerGroupName, Class jobClass, String cron, JobDataMap jobDataMap) {
 
         try {
+
+            JobKey jobKey = new JobKey(jobName, jobGroupName);
+            JobDetail jobDetail = scheduler.getJobDetail(jobKey);
+
+            if (null != jobDetail) {
+                // 该定时任务已存在
+                log.info("====>addJob, job already exist! jobName is {}, jobGroupName is {}", jobName, jobGroupName);
+                return;
+            }
+
             // 任务名、任务组名、任务执行类
-            JobDetail jobDetail = JobBuilder.newJob(jobClass).withIdentity(jobName, jobGroupName)
+            jobDetail = JobBuilder.newJob(jobClass).withIdentity(jobName, jobGroupName)
                 .usingJobData(jobDataMap).build();
 
             // 触发器
@@ -78,37 +88,35 @@ public class QuartzManager {
 
                 log.info("====>trigger is null, triggerName is {}, triggerGroupName is {}", triggerName,
                     triggerGroupName);
-                return;
+            }else {
+                String oldTime = trigger.getCronExpression();
+
+                if (!oldTime.equalsIgnoreCase(cron)) {
+
+                    // 方式1：调用rescheduleJob -- start
+                    // 触发器
+                    TriggerBuilder<Trigger> triggerBuilder = TriggerBuilder.newTrigger();
+
+                    // 触发器名、触发器组名
+                    triggerBuilder.withIdentity(triggerName, triggerGroupName);
+
+                    // 触发器时间设定
+                    triggerBuilder.withSchedule(CronScheduleBuilder.cronSchedule(cron));
+
+                    // 创建Trigger对象
+                    trigger = (CronTrigger) triggerBuilder.build();
+
+                    // 修改任务的触发时间
+                    scheduler.rescheduleJob(triggerKey, trigger);
+                    // 方式1：调用rescheduleJob -- end
+
+                    // 方式2： 先删除，然后创建一个新的job -- start
+                    JobDetail jobDetail = scheduler.getJobDetail(JobKey.jobKey(jobName, jobGroupName));
+                    Class<? extends Job> jobClass = jobDetail.getJobClass();
+
+                    // 方式2： 先删除，然后创建一个新的job -- end
+                }
             }
-
-            String oldTime = trigger.getCronExpression();
-
-            if (!oldTime.equalsIgnoreCase(cron)) {
-
-                // 方式1：调用rescheduleJob -- start
-                // 触发器
-                TriggerBuilder<Trigger> triggerBuilder = TriggerBuilder.newTrigger();
-
-                // 触发器名、触发器组名
-                triggerBuilder.withIdentity(triggerName, triggerGroupName);
-
-                // 触发器时间设定
-                triggerBuilder.withSchedule(CronScheduleBuilder.cronSchedule(cron));
-
-                // 创建Trigger对象
-                trigger = (CronTrigger) triggerBuilder.build();
-
-                // 修改任务的触发时间
-                scheduler.rescheduleJob(triggerKey, trigger);
-                // 方式1：调用rescheduleJob -- end
-
-                // 方式2： 先删除，然后创建一个新的job -- start
-                JobDetail jobDetail = scheduler.getJobDetail(JobKey.jobKey(jobName, jobGroupName));
-                Class<? extends Job> jobClass = jobDetail.getJobClass();
-
-                // 方式2： 先删除，然后创建一个新的job -- end
-            }
-
         } catch (SchedulerException e) {
             e.printStackTrace();
         }
@@ -138,6 +146,28 @@ public class QuartzManager {
             scheduler.deleteJob(JobKey.jobKey(jobName, jobGroupName));
         } catch (SchedulerException e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * 获取任务详情
+     *
+     * @param triggerName 触发器名称
+     * @param triggerGroupName 触发器组名称
+     * @return String
+     */
+    public String getJobInfo(String triggerName, String triggerGroupName){
+
+        try {
+            TriggerKey triggerKey = new TriggerKey(triggerName, triggerGroupName);
+
+            CronTrigger cronTrigger = (CronTrigger) scheduler.getTrigger(triggerKey);
+
+            return String.format("time:%s,state:%s", cronTrigger.getCronExpression(),
+                scheduler.getTriggerState(triggerKey).name());
+        } catch (SchedulerException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 

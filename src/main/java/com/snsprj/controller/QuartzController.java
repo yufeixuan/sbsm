@@ -2,6 +2,8 @@ package com.snsprj.controller;
 
 import com.snsprj.common.ServerResponse;
 import com.snsprj.quartz.QuartzManager;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.quartz.JobDataMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 /**
  * 定时任务类
  */
+@Slf4j
 @Controller
 @RequestMapping("/quartz")
 public class QuartzController {
@@ -35,6 +38,13 @@ public class QuartzController {
         @RequestParam("jobClass") String jobClass,
         @RequestParam("cronExpression") String cronExpression) throws ClassNotFoundException {
 
+        String jobInfo = quartzManager.getJobInfo(jobName, null);
+
+        if (StringUtils.isNotBlank(jobInfo)){
+            // 任务已存在
+            log.info("====>addJob, job already exist! jobName is {}", jobName);
+            return ServerResponse.createBySuccess();
+        }
         JobDataMap jobDataMap = new JobDataMap();
         jobDataMap.put("name", "xiaohb");
         Class jobClazz = Class.forName(jobClass);

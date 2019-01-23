@@ -223,4 +223,11 @@ public class TestStringUtils {
 
         log.info("====>entryDn is {}", entryDn);
     }
+
+    @Test
+    public void testByte(){
+        String str = "TenancyInfoCache";
+        byte[] rawBytes = str.getBytes();
+        System.out.println(rawBytes);
+    }
 }

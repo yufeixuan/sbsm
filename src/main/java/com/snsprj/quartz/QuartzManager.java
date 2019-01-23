@@ -88,7 +88,7 @@ public class QuartzManager {
 
                 log.info("====>trigger is null, triggerName is {}, triggerGroupName is {}", triggerName,
                     triggerGroupName);
-            }else {
+            } else {
                 String oldTime = trigger.getCronExpression();
 
                 if (!oldTime.equalsIgnoreCase(cron)) {
@@ -156,15 +156,21 @@ public class QuartzManager {
      * @param triggerGroupName 触发器组名称
      * @return String
      */
-    public String getJobInfo(String triggerName, String triggerGroupName){
+    public String getJobInfo(String triggerName, String triggerGroupName) {
 
         try {
             TriggerKey triggerKey = new TriggerKey(triggerName, triggerGroupName);
 
             CronTrigger cronTrigger = (CronTrigger) scheduler.getTrigger(triggerKey);
 
-            return String.format("time:%s,state:%s", cronTrigger.getCronExpression(),
-                scheduler.getTriggerState(triggerKey).name());
+            if (null == cronTrigger) {
+                // 定时任务不存在
+                return null;
+            } else {
+                return String.format("time:%s,state:%s", cronTrigger.getCronExpression(),
+                    scheduler.getTriggerState(triggerKey).name());
+            }
+
         } catch (SchedulerException e) {
             e.printStackTrace();
             return null;

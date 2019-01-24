@@ -1,14 +1,27 @@
 package com.snsprj.ad_ldap;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
+import javax.naming.Context;
+import javax.naming.NamingEnumeration;
+import javax.naming.NamingException;
+import javax.naming.directory.Attribute;
+import javax.naming.directory.Attributes;
+import javax.naming.directory.SearchControls;
+import javax.naming.directory.SearchResult;
+import javax.naming.ldap.Control;
+import javax.naming.ldap.InitialLdapContext;
+import javax.naming.ldap.LdapContext;
+import javax.naming.ldap.PagedResultsControl;
+import javax.naming.ldap.PagedResultsResponseControl;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-
-import javax.naming.*;
-import javax.naming.directory.*;
-import javax.naming.ldap.*;
-import java.io.IOException;
-import java.util.*;
 
 @Slf4j
 public class AdLdapSyncTool {
@@ -45,7 +58,7 @@ public class AdLdapSyncTool {
     }
 
     /**
-     * 分页获取ad_ldap中的数据
+     * 分页获取ad_ldap中的数据中所有符合条件的数据（可以优化成每次获取900条数据）
      */
     private List<Map<String, String>> getAdLdapDataByPage() {
 
@@ -118,7 +131,7 @@ public class AdLdapSyncTool {
                     }
                 }
 
-                Control[] controls = ldapContext.getRequestControls();
+                Control[] controls = ldapContext.getResponseControls();
                 if (controls != null) {
                     for (Control control : controls) {
                         if (control instanceof PagedResultsResponseControl) {
@@ -182,51 +195,29 @@ public class AdLdapSyncTool {
         return ldapContext;
     }
 
-    /**
-     * 导入用户-针对万科
-     */
-    public void exportUserData() {
-
-        // uid:唯一标示；cn:用户姓名；smart-adaccount:AD/LDAP账号;departmentNumber:部门id;smart-orgno-fullpath:用户组织编号全路径
-        returnedAttributes = new String[]{"uid", "cn", "smart-adaccount", "mobile", "mail", "departmentNumber",
-            "smart-orgno-fullpath"};
-
-        // smart-sources:1-HR,2-主数据,3-销售,4-匠心,5-SRM
-        // smart-status:0-禁用,1-启用
-        searchFilter = "(&(smart-adaccount=*)(smart-sources=1)(smart-status=1))";
-        baseDN = "ou=People,dc=vanketest,dc=com";
-
-        List<Map<String, String>> recordList = this.getAdLdapDataByPage();
-    }
-
-    /**
-     * 同步用户-针对万科
-     */
-    public void syncUserData(Date startDate) {
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-        String startDateStr = sdf.format(startDate);
-        startDateStr += "Z";
-        log.info("====>syncUserData, startDateStr is {}", startDateStr);
-
-    }
-
     public static void main(String[] args) {
 
-        String username = "cn=Manager,dc=xinhua,dc=org";
-        String password = "123456";
+        String username = "SNSPRJ\\Administrator";
+        String password = "UUsafe916";
         int port = 389;
-        String host = "192.168.1.42";
-        String baseDN = "dc=xinhua,dc=org";
+        String host = "192.168.3.88";
+        String baseDN = "DC=snsprj,DC=cn";
 
         String[] returnedAttributes = {};
-        String searchFilter = "(&(createTimestamp>=20180101000000Z)(objectClass=person))";
+        returnedAttributes = new String[]{"uid", "cn", "mobile", "mail", "createTimestamp", "modifyTimestamp"};
+//        String searchFilter = "(&(createTimestamp>=20180101000000Z)(objectClass=person))";
+        String searchFilter = null;
+
+//        searchFilter = "(&(userPassword=123456)(!(objectClass=organizationalUnit))(sn=002))";
+//        searchFilter = "(&(userPassword=123456)(!(objectClass=person))(sn=002))";
 
         AdLdapSyncTool adLdapTest = new AdLdapSyncTool(username, password, host, port, baseDN, searchFilter,
             returnedAttributes);
 
-//        adLdapTest.getAdLdapDataByPage();
+        List<Map<String, String>> recordList = adLdapTest.getAdLdapDataByPage();
 
-        adLdapTest.syncUserData(new Date());
+        log.info("====>recordList is {}", recordList);
+
+//        adLdapTest.syncUserData(new Date());
     }
 }

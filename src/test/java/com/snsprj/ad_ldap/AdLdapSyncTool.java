@@ -106,7 +106,6 @@ public class AdLdapSyncTool {
 
                     // distinguishedName
                     String dn = searchResult.getName();
-                    log.info("====>distinguishedName is {}", dn);
 
                     // 得到符合条件的属性集(一条记录的所有属性的集合)
                     Attributes attributes = searchResult.getAttributes();
@@ -197,14 +196,20 @@ public class AdLdapSyncTool {
 
     public static void main(String[] args) {
 
-        String username = "SNSPRJ\\Administrator";
-        String password = "UUsafe916";
+//        String username = "SNSPRJ\\Administrator";
+//        String password = "UUsafe916";
+//        int port = 389;
+//        String host = "192.168.3.88";
+//        String baseDN = "DC=snsprj,DC=cn";
+
+        String username = "cn=Manager,dc=xinhua,dc=org";
+        String password = "123456";
         int port = 389;
-        String host = "192.168.3.88";
-        String baseDN = "DC=snsprj,DC=cn";
+        String host = "192.168.1.42";
+        String baseDN = "dc=xinhua,dc=org";
 
         String[] returnedAttributes = {};
-        returnedAttributes = new String[]{"uid", "cn", "mobile", "mail", "createTimestamp", "modifyTimestamp"};
+        returnedAttributes = new String[]{"uid", "cn", "mobile", "mail", "not_exist_attr"};
 //        String searchFilter = "(&(createTimestamp>=20180101000000Z)(objectClass=person))";
         String searchFilter = null;
 

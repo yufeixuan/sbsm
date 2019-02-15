@@ -230,4 +230,35 @@ public class TestStringUtils {
         byte[] rawBytes = str.getBytes();
         System.out.println(rawBytes);
     }
+
+    @Test
+    public void  testListClear(){
+
+        List<Integer> list = new ArrayList<>();
+        list.add(1);
+        list.add(12);
+        list.add(13);
+        list.add(14);
+
+        log.info("list is {}", list);
+
+        list.clear();
+
+        log.info("list is {}", list);
+    }
+
+    @Test
+    public void testSplit(){
+
+        String str1 = "000-";
+        String str2 = "000--222";
+
+        String str3 = "0000000000000000001-716120294369742848-716120294382325760-";
+
+        String str4 = "";
+        String[] arr3 = str3.split("-");
+        String[] arr4 = str4.split("-");
+
+        log.info("");
+    }
 }

@@ -1,9 +1,7 @@
 package com.snsprj.ad_ldap;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
@@ -192,6 +190,20 @@ public class AdLdapSyncTool {
         }
 
         return ldapContext;
+    }
+
+    /**
+     * 获取全量同步部门数据--万科
+     */
+    public List<Map<String, String>> getExportDeptData(String baseDN,String searchFilter,String[] returnedAttributes) {
+
+
+        log.info("====>getExportDeptData, baseDN is {}, searchFilter is {}, returnedAttributes",baseDN);
+
+        // ldap createTimestamp 与 modifyTimestamp 为隐藏属性，无法获取其值。需要手动设置 createTimestamp 与 modifyTimestamp 为 new Date();
+        List<Map<String, String>> recordList = this.getAdLdapDataByPage(baseDN, returnedAttributes, searchFilter);
+        log.info("====>getExportDeptData, record size is{}", recordList.size());
+        return recordList;
     }
 
     public static void main(String[] args) {

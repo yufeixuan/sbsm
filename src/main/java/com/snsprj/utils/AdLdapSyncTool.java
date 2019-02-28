@@ -1,4 +1,4 @@
-package com.snsprj.ad_ldap;
+package com.snsprj.utils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,6 +21,11 @@ import javax.naming.ldap.PagedResultsResponseControl;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
+/**
+ * ad/ldap获取数据工具类
+ *
+ * @author xiaohb
+ */
 @Slf4j
 public class AdLdapSyncTool {
 
@@ -28,46 +33,31 @@ public class AdLdapSyncTool {
      * ad_ldap ip
      */
     private String host;
-
     private int port;
     private String username;
     private String password;
-    private String baseDN;
 
-    /**
-     * 查询过滤条件
-     */
-    private String searchFilter;
-
-    /**
-     * 查询需要返回的值
-     */
-    private String[] returnedAttributes;
-
-    public AdLdapSyncTool(String username, String password, String host, int port, String baseDN, String searchFilter,
-        String[] returnedAttributes) {
+    public AdLdapSyncTool(String username, String password, String host, int port) {
         this.username = username;
         this.password = password;
         this.host = host;
         this.port = port;
-        this.baseDN = baseDN;
-        this.searchFilter = searchFilter;
-        this.returnedAttributes = returnedAttributes;
     }
 
     /**
      * 分页获取ad_ldap中的数据中所有符合条件的数据（可以优化成每次获取900条数据）
+     *
+     * @param baseDN path
+     * @param returnedAttributes 定制返回的属性，不指定则返回所有属性
+     * @param searchFilter 过滤条件
+     * @return list
+     * @author xiaohb
      */
-    private List<Map<String, String>> getAdLdapDataByPage() {
+    private List<Map<String, String>> getAdLdapDataByPage(String baseDN, String[] returnedAttributes,
+        String searchFilter) {
 
         // 定义每次获取数据的条数
         int pageSize = 900;
-
-        // 某个属性的key
-        String attributeKey = "";
-
-        // 某个属性的value
-        String attributeValue = "";
 
         // 用于保存所有同步的信息
         List<Map<String, String>> recordList = new ArrayList<>();
@@ -75,6 +65,11 @@ public class AdLdapSyncTool {
         byte[] cookie = null;
 
         LdapContext ldapContext = this.getLdapContext();
+
+        if (ldapContext == null) {
+            log.error("====>ldapContext is null!");
+            return recordList;
+        }
 
         try {
 
@@ -102,28 +97,11 @@ public class AdLdapSyncTool {
 
                     SearchResult searchResult = (SearchResult) answer.next();
 
-                    // distinguishedName
-                    String dn = searchResult.getName();
-
                     // 得到符合条件的属性集(一条记录的所有属性的集合)
                     Attributes attributes = searchResult.getAttributes();
 
                     if (attributes != null) {
-
-                        Map<String, String> row = new HashMap<>();
-
-                        for (NamingEnumeration ne = attributes.getAll(); ne.hasMore(); ) {
-                            // 每个属性的键值对
-                            Attribute attribute = (Attribute) ne.next();
-                            attributeKey = attribute.getID();
-
-                            for (NamingEnumeration e = attribute.getAll(); e.hasMore(); ) {
-                                attributeValue = e.next().toString();
-                            }
-                            row.put(attributeKey, attributeValue);
-                        }
-
-                        row.put("userDN", dn);
+                        Map<String, String> row = this.getAttributeRecord(attributes);
                         recordList.add(row);
                     }
                 }
@@ -144,21 +122,76 @@ public class AdLdapSyncTool {
 
             ldapContext.close();
 
-            log.info("====>getAdLdapDataByPage, recordList size is {}", recordList.size());
-
         } catch (NamingException | IOException e) {
-            e.printStackTrace();
+            log.error("====>error occur,", e);
         } finally {
-            if (null != ldapContext) {
-                try {
-                    ldapContext.close();
-                } catch (NamingException e) {
-                    e.printStackTrace();
-                }
+            try {
+                // 防止程序异常没有正常close
+                ldapContext.close();
+            } catch (NamingException e) {
+                log.error("====>error occur,", e);
             }
-
         }
         return recordList;
+    }
+
+    /**
+     * 获取一条记录的 key/value 集合
+     *
+     * @param attributes 一条记录的所有属性的集合
+     * @return Map
+     * @author xiaohb
+     */
+    private Map<String, String> getAttributeRecord(Attributes attributes) {
+
+        Map<String, String> row = new HashMap<>();
+
+        String attributeKey = "";
+        String attributeValue = "";
+        try {
+            NamingEnumeration ne = attributes.getAll();
+            while (ne.hasMore()) {
+                // 每个属性的键值对
+                Attribute attribute = (Attribute) ne.next();
+                attributeKey = attribute.getID();
+
+                NamingEnumeration e = attribute.getAll();
+                while (e.hasMore()) {
+                    if (StringUtils.equalsIgnoreCase(attributeKey, "objectGUID")) {
+                        byte[] objectGUID = (byte[]) e.next();
+                        attributeValue = this.getGUID(objectGUID);
+                    } else {
+                        attributeValue = e.next().toString();
+                    }
+                }
+
+                row.put(attributeKey, attributeValue);
+            }
+
+        } catch (NamingException e) {
+            e.printStackTrace();
+        }
+
+        return row;
+    }
+
+    /**
+     * objectGUID byte[] 转 String
+     *
+     * @param objectGUID byte []
+     * @return String
+     * @author xiaohb
+     */
+    private String getGUID(byte[] objectGUID) {
+        StringBuilder guid = new StringBuilder();
+        for (byte b : objectGUID) {
+            StringBuilder dblByte = new StringBuilder(Integer.toHexString(b & 0xff));
+            if (dblByte.length() == 1) {
+                guid.append("0");
+            }
+            guid.append(dblByte);
+        }
+        return guid.toString().toUpperCase();
     }
 
     /**
@@ -168,73 +201,49 @@ public class AdLdapSyncTool {
      */
     private LdapContext getLdapContext() {
 
-        Hashtable<String, String> adEnv = new Hashtable<>();
+        Hashtable<String, String> ldapEnv = new Hashtable<>();
 
         // LDAP/AD访问安全级别（none,simple,strong）
-        adEnv.put(Context.SECURITY_AUTHENTICATION, "simple");
-        adEnv.put(Context.SECURITY_PRINCIPAL, username);
-        adEnv.put(Context.SECURITY_CREDENTIALS, password);
+        ldapEnv.put(Context.SECURITY_AUTHENTICATION, "simple");
+        ldapEnv.put(Context.SECURITY_PRINCIPAL, username);
+        ldapEnv.put(Context.SECURITY_CREDENTIALS, password);
         // LDAP工厂类
-        adEnv.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
+        ldapEnv.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
         // 连接超时时间3秒
-        adEnv.put("com.sun.jndi.ldap.connect.timeout", "3000");
+        ldapEnv.put("com.sun.jndi.ldap.connect.timeout", "3000");
         // 默认端口389
-        adEnv.put(Context.PROVIDER_URL, "ldap://" + host + ":" + port);
+        ldapEnv.put(Context.PROVIDER_URL, "ldap://" + host + ":" + port);
 
+        // 设置16进制objectGUID
+        ldapEnv.put("java.naming.ldap.attributes.binary", "objectGUID");
         LdapContext ldapContext = null;
 
         try {
-            ldapContext = new InitialLdapContext(adEnv, null);
+            ldapContext = new InitialLdapContext(ldapEnv, null);
         } catch (NamingException e) {
-            e.printStackTrace();
+            log.error("====>error occur,", e);
         }
 
         return ldapContext;
     }
 
     /**
-     * 获取全量同步部门数据--万科
+     * 获取ad/ldap中的数据
+     *
+     * @param baseDN path
+     * @param returnedAttributes 返回的属性
+     * @param searchFilter 过滤条件
+     * @return list
+     * @author xiaohb
      */
-    public List<Map<String, String>> getExportDeptData(String baseDN,String searchFilter,String[] returnedAttributes) {
+    public List<Map<String, String>> exportData(String baseDN, String[] returnedAttributes, String searchFilter) {
 
+        log.info("====>getExportDeptData, baseDN is {},  returnedAttributes is {}, searchFilter is {}", baseDN,
+            returnedAttributes, searchFilter);
 
-        log.info("====>getExportDeptData, baseDN is {}, searchFilter is {}, returnedAttributes",baseDN);
-
-        // ldap createTimestamp 与 modifyTimestamp 为隐藏属性，无法获取其值。需要手动设置 createTimestamp 与 modifyTimestamp 为 new Date();
+        // ldap createTimestamp 与 modifyTimestamp 为隐藏属性，无法获取其值。
         List<Map<String, String>> recordList = this.getAdLdapDataByPage(baseDN, returnedAttributes, searchFilter);
-        log.info("====>getExportDeptData, record size is{}", recordList.size());
+        log.info("====>exportData, record size is{}", recordList.size());
         return recordList;
-    }
-
-    public static void main(String[] args) {
-
-//        String username = "SNSPRJ\\Administrator";
-//        String password = "UUsafe916";
-//        int port = 389;
-//        String host = "192.168.3.88";
-//        String baseDN = "DC=snsprj,DC=cn";
-
-        String username = "cn=Manager,dc=xinhua,dc=org";
-        String password = "123456";
-        int port = 389;
-        String host = "192.168.1.42";
-        String baseDN = "dc=xinhua,dc=org";
-
-        String[] returnedAttributes = {};
-        returnedAttributes = new String[]{"uid", "cn", "mobile", "mail", "not_exist_attr"};
-//        String searchFilter = "(&(createTimestamp>=20180101000000Z)(objectClass=person))";
-        String searchFilter = null;
-
-//        searchFilter = "(&(userPassword=123456)(!(objectClass=organizationalUnit))(sn=002))";
-//        searchFilter = "(&(userPassword=123456)(!(objectClass=person))(sn=002))";
-
-        AdLdapSyncTool adLdapTest = new AdLdapSyncTool(username, password, host, port, baseDN, searchFilter,
-            returnedAttributes);
-
-        List<Map<String, String>> recordList = adLdapTest.getAdLdapDataByPage();
-
-        log.info("====>recordList is {}", recordList);
-
-//        adLdapTest.syncUserData(new Date());
     }
 }

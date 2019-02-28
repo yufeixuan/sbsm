@@ -1,5 +1,7 @@
 package com.snsprj.generic;
 
+import com.snsprj.model.User;
+
 /**
  * 测试泛型类
  *
@@ -15,5 +17,17 @@ public class TestGeneric {
     public  void  showKeyValue(Generic<?> obj){
 
         System.out.println(obj.getKey());
+    }
+
+
+    public static void test(Class<?> instance){
+
+        System.out.println(instance.getName());
+    }
+
+    public static void main(String[] args) throws ClassNotFoundException {
+
+        Class<User> stringClass = User.class;
+        test(stringClass);
     }
 }

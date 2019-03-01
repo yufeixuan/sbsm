@@ -1,4 +1,4 @@
-package com.snsprj.utils;
+package com.snsprj.utils.ldap;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -245,5 +245,9 @@ public class AdLdapSyncTool {
         List<Map<String, String>> recordList = this.getAdLdapDataByPage(baseDN, returnedAttributes, searchFilter);
         log.info("====>exportData, record size is{}", recordList.size());
         return recordList;
+    }
+
+    class NodeModel{
+
     }
 }

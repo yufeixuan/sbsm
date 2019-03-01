@@ -61,7 +61,7 @@ public class TestStringUtils {
     }
 
     @Test
-    public void getListJaon(){
+    public void getListJaon() {
         List<String> nameList = new ArrayList<>();
         nameList.add("张三");
         nameList.add("张三");
@@ -73,27 +73,27 @@ public class TestStringUtils {
 
         System.out.println(paramJson);
 
-        String [] strArr = new String[3];
+        String[] strArr = new String[3];
 
         Object object = strArr;
 
-        if (object instanceof List){
+        if (object instanceof List) {
 
         }
     }
 
     @Test
-    public void testStringSplit(){
+    public void testStringSplit() {
 
         String str = "boo|and|foo";
 
-        String[] resultArr = str.split("[|]",7);
+        String[] resultArr = str.split("[|]", 7);
 
         log.info("====>resultArr is {}", resultArr);
     }
 
     @Test
-    public void testDoWhile(){
+    public void testDoWhile() {
 
         int indexA = 10;
         int indexB = 10;
@@ -101,26 +101,26 @@ public class TestStringUtils {
 
         do {
 
-            if (indexA <= 0){
+            if (indexA <= 0) {
                 log.info("process is return!");
                 return;
             }
-            indexA --;
-        }while (true);
+            indexA--;
+        } while (true);
     }
 
     /**
      * 测试log4j对异常的打印
      */
     @Test
-    public void exceptionTest(){
+    public void exceptionTest() {
 
         int a = 1;
         int b = 0;
 
         try {
-            int c = a/b;
-        }catch (Exception e){
+            int c = a / b;
+        } catch (Exception e) {
 //            log.error(e.getMessage() + e);
 //            e.printStackTrace();
 //            log.error("error is {}", e);
@@ -129,10 +129,10 @@ public class TestStringUtils {
     }
 
     @Test
-    public void test3(){
+    public void test3() {
 
         String path = "123";
-        Map<String, Object> objectMap= new HashMap<>();
+        Map<String, Object> objectMap = new HashMap<>();
         objectMap.put(path, null);
 
         try {
@@ -143,7 +143,7 @@ public class TestStringUtils {
     }
 
     @Test
-    public void test4(){
+    public void test4() {
 
         String domain = "DC=SNSPRJ,DC=CN";
 
@@ -154,7 +154,6 @@ public class TestStringUtils {
 
         String pathStr = path.substring(0, path.toUpperCase().indexOf("," + domain));
         log.info("====>pathStr is {}", pathStr);
-
 
         String baseDN = "OU=同福客栈";
         String[] sp = baseDN.split(",");
@@ -176,19 +175,19 @@ public class TestStringUtils {
     }
 
     @Test
-    public void test5(){
+    public void test5() {
         // 1546847008167
         System.out.println(System.currentTimeMillis());
 
-        Map<String,Object> testMap = new HashMap<>();
-        testMap.put("key","va;iue");
+        Map<String, Object> testMap = new HashMap<>();
+        testMap.put("key", "va;iue");
 
         log.info("====>map is {}", testMap);
     }
 
 
     @Test
-    public void emojiTest(){
+    public void emojiTest() {
 
         String pureStr = "你哈，:joy::cry:";
         String pureStrPare2Unicode = EmojiParser.parseToUnicode(pureStr);
@@ -199,10 +198,10 @@ public class TestStringUtils {
      * 获取当天还剩余多少秒
      */
     @Test
-    public void dayLeftSecondsTest(){
+    public void dayLeftSecondsTest() {
 
         LocalDateTime midnight = LocalDateTime.now().plusDays(1).withHour(0).withMinute(0).withSecond(0).withNano(0);
-        long millSeconds = ChronoUnit.MILLIS.between(LocalDateTime.now(),midnight);
+        long millSeconds = ChronoUnit.MILLIS.between(LocalDateTime.now(), midnight);
         int seconds = (int) ChronoUnit.SECONDS.between(LocalDateTime.now(), midnight);
         System.out.println("当天剩余毫秒：" + millSeconds);
         System.out.println("当天剩余秒：" + seconds);
@@ -210,13 +209,12 @@ public class TestStringUtils {
     }
 
     @Test
-    public void testSubString(){
+    public void testSubString() {
 
 //        String str = "CN=吕轻侯,OU=财务部,OU=同福客栈,DC=snsprj,DC=cn";
         String str = "CN=张三,OU=食材采购部,OU=后厨部,OU=同福客栈,DC=snsprj,DC=cn";
 
-
-        String[] tempArr = StringUtils.split(str,",");
+        String[] tempArr = StringUtils.split(str, ",");
         int arrLength = tempArr.length;
 
         String entryDn = tempArr[arrLength - 2].split("=")[1] + "." + tempArr[arrLength - 1].split("=")[1];
@@ -225,14 +223,14 @@ public class TestStringUtils {
     }
 
     @Test
-    public void testByte(){
+    public void testByte() {
         String str = "TenancyInfoCache";
         byte[] rawBytes = str.getBytes();
         System.out.println(rawBytes);
     }
 
     @Test
-    public void  testListClear(){
+    public void testListClear() {
 
         List<Integer> list = new ArrayList<>();
         list.add(1);
@@ -248,7 +246,7 @@ public class TestStringUtils {
     }
 
     @Test
-    public void testSplit(){
+    public void testSplit() {
 
         String str1 = "000-";
         String str2 = "000--222";
@@ -261,4 +259,21 @@ public class TestStringUtils {
 
         log.info("");
     }
+
+    @Test
+    public void testList2Array() {
+
+        List<String> list = new ArrayList<>();
+        list.add("zhangsan");
+
+//        String[] arr = (String[]) list.toArray();
+
+        String[] arrResult = new String[list.size()];
+        String[] arr = list.toArray(arrResult);
+
+        log.info("====> arr is {}", arr);
+    }
+
+
+
 }

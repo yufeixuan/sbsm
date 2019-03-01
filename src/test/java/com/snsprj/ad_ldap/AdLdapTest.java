@@ -1,6 +1,6 @@
 package com.snsprj.ad_ldap;
 
-import com.snsprj.utils.AdLdapSyncTool;
+import com.snsprj.utils.ldap.AdLdapSyncTool;
 import java.util.List;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;

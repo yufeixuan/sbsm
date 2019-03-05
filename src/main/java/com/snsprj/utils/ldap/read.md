@@ -35,7 +35,28 @@ slapd -VV
 vim /etc/openldap/slapd.d/cn\=config/olcDatabase\=\{2\}hdb.ldif
 ```
 
+#### install openldap centos 7
 
+```
+# install
+yum install openldap openldap-servers
+
+# start the openldap server daemon.
+sudo systemctl start slapd
+sudo systemctl enable slapd
+sudo systemctl status slapd
+
+# allow requests to the LDAP server daemon through the firewall as shown.
+firewall-cmd --add-service=ldap
+```
+
+#### Configuring LDAP Server
+
+```
+# create a OpenLDAP administrative user and assign a password for that user.
+slappasswd
+
+```
 
 
 

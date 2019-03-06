@@ -43,7 +43,7 @@ server:
 
 #配置mybatis
 mybatis:
-  type-aliases-package: com.snsprj.model
+  type-aliases-package: com.snsprj.sbsm.model
   mapper-locations: classpath:com/snsprj/mapper/*.xml
 
 #FTP服务器配置

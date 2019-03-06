@@ -26,16 +26,16 @@
             <property name="forceBigDecimals" value="true"/>
         </javaTypeResolver>
 
-        <javaModelGenerator targetPackage="com.snsprj.model" targetProject="src/main/java">
+        <javaModelGenerator targetPackage="com.snsprj.sbsm.model" targetProject="src/main/java">
             <property name="enableSubPackages" value="true"/>
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
 
-        <sqlMapGenerator targetPackage="com.snsprj.mapper" targetProject="src/main/java">
+        <sqlMapGenerator targetPackage="com.snsprj.sbsm.mapper" targetProject="src/main/java">
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
 
-        <javaClientGenerator targetPackage="com.snsprj.mapper" type="XMLMAPPER"
+        <javaClientGenerator targetPackage="com.snsprj.sbsm.mapper" type="XMLMAPPER"
           targetProject="src/main/java">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>

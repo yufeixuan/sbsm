@@ -122,12 +122,12 @@
         3、没有设置appender，此logger本身不打印任何日志信息。
         4、root接收到下级传递的信息，交给已配置好的名为“stdout”的appender处理。
     -->
-    <!--<logger name="com.snsprj.service"/>-->
+    <!--<logger name="com.snsprj.sbsm.service"/>-->
 
     <!-- 处理com.snsprj.controller包下所有日志，
     只输出level >= DEBUG级别的日志，
     因为没有DEBUG的appender，所以不会输出debug信息 -->
-    <!--<logger name="com.snsprj.controller" additivity="false" level="DEBUG">-->
+    <!--<logger name="com.snsprj.sbsm.controller" additivity="false" level="DEBUG">-->
     <!--<appender-ref ref="INFO"/>-->
     <!--<appender-ref ref="ERROR"/>-->
     <!--</logger>-->

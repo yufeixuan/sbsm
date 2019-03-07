@@ -27,7 +27,7 @@ import org.apache.commons.lang3.StringUtils;
  * @author xiaohb
  */
 @Slf4j
-public class AdLdapSyncTool {
+public class AdLdapSyncUtil {
 
     /**
      * ad_ldap ip
@@ -37,7 +37,7 @@ public class AdLdapSyncTool {
     private String username;
     private String password;
 
-    public AdLdapSyncTool(String username, String password, String host, int port) {
+    public AdLdapSyncUtil(String username, String password, String host, int port) {
         this.username = username;
         this.password = password;
         this.host = host;
@@ -160,18 +160,16 @@ public class AdLdapSyncTool {
                 attributeKey = attribute.getID();
 
                 NamingEnumeration e = attribute.getAll();
-                while (e.hasMore()) {
-                    if (StringUtils.equalsIgnoreCase(attributeKey, "objectGUID")) {
-                        byte[] objectGUID = (byte[]) e.next();
-                        attributeValue = this.getGUID(objectGUID);
-                    } else {
-                        attributeValue = e.next().toString();
-                    }
+
+                if (StringUtils.equalsIgnoreCase(attributeKey, "objectGUID")) {
+                    byte[] objectGUID = (byte[]) e.next();
+                    attributeValue = this.getGUID(objectGUID);
+                    row.put("uuid", attributeValue);
+                } else {
+                    attributeValue = e.next().toString();
+                    row.put(attributeKey, attributeValue);
                 }
-
-                row.put(attributeKey, attributeValue);
             }
-
         } catch (NamingException e) {
             e.printStackTrace();
         }

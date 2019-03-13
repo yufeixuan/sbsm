@@ -5,7 +5,6 @@ import com.snsprj.sbsm.form.UserForm;
 import com.snsprj.sbsm.mapper.UserManualMapper;
 import com.snsprj.sbsm.mapper.UserMapper;
 import com.snsprj.sbsm.model.User;
-import com.snsprj.sbsm.model.UserExample;
 import com.snsprj.sbsm.service.UserService;
 import com.snsprj.sbsm.utils.Chinese2PinyinUtil;
 import com.snsprj.sbsm.utils.UUIDUtil;

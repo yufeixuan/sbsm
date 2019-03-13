@@ -20,8 +20,8 @@ spring:
     multipart:
       enabled: true
       location:
-      max-file-size: 50Mb
-      max-request-size: 50Mb
+      max-file-size: 50MB
+      max-request-size: 50MB
 
   redis:
     host: 192.168.3.53

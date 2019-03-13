@@ -23,18 +23,18 @@ spring:
       max-file-size: 50MB
       max-request-size: 50MB
 
+  # 配置redis集群
   redis:
     host: 192.168.3.53
 #    password: foo
     port: 6379
     database: 0
-
-    jedis:
+    lettuce:
       pool:
         max-active: 8
         max-idle: 8 # 最大空闲
+        min-idle: 0
         max-wait: 6000ms
-
 
 
   #Spring session配置session存储方式

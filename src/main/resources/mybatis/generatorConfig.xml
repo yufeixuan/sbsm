@@ -1,25 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE generatorConfiguration
-    PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
-    "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 
 <!-- 配置生成器 -->
 <generatorConfiguration>
 
     <properties resource="mybatis/jdbc.properties"/>
 
-    <context id="MyBatis" targetRuntime="MyBatis3"  defaultModelType="flat">
+    <context id="MyBatis" targetRuntime="MyBatis3" defaultModelType="flat">
 
         <!--覆盖生成XML文件-->
-        <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin" />
+        <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin"/>
 
         <!-- 不生成注释 -->
         <commentGenerator>
             <property name="suppressAllComments" value="true"/>
         </commentGenerator>
 
+        <!-- http://www.mybatis.org/generator/usage/mysql.html -->
         <jdbcConnection driverClass="${jdbc.driver}"
           connectionURL="${jdbc.url}" userId="${jdbc.username}" password="${jdbc.password}">
+            <property name="nullCatalogMeansCurrent" value="true"/>
         </jdbcConnection>
 
         <javaTypeResolver type="org.mybatis.generator.internal.types.JavaTypeResolverDefaultImpl">
@@ -31,25 +33,25 @@
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
 
-        <sqlMapGenerator targetPackage="com.snsprj.sbsm.mapper" targetProject="src/main/java">
-            <property name="enableSubPackages" value="true"/>
-        </sqlMapGenerator>
-
         <javaClientGenerator targetPackage="com.snsprj.sbsm.mapper" type="XMLMAPPER"
           targetProject="src/main/java">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
+        <!-- mapper xml file -->
+        <sqlMapGenerator targetPackage="mybatis.mapper" targetProject="src/main/resources">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
 
 
         <table schema="sbsm" tableName="user_info" domainObjectName="UserInfo">
-            <generatedKey column="id" sqlStatement="MySql" identity="true" />
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
         <table schema="sbsm" tableName="users" domainObjectName="User">
-            <generatedKey column="id" sqlStatement="MySql" identity="true" />
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
         <table schema="sbsm" tableName="quartz_jobs" domainObjectName="QuartzJob">
-            <generatedKey column="id" sqlStatement="MySql" identity="true" />
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
     </context>
 

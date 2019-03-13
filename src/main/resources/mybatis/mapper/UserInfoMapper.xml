@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.snsprj.sbsm.mapper.UserInfoMapper">
   <resultMap id="BaseResultMap" type="com.snsprj.sbsm.model.UserInfo">
-    <result column="id" jdbcType="INTEGER" property="id" />
-    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
     <result column="nickname" jdbcType="VARCHAR" property="nickname" />
     <result column="avatar" jdbcType="VARCHAR" property="avatar" />
     <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
@@ -84,6 +84,16 @@
       order by ${orderByClause}
     </if>
   </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user_info
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from user_info
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
   <delete id="deleteByExample" parameterType="com.snsprj.sbsm.model.UserInfoExample">
     delete from user_info
     <if test="_parameter != null">
@@ -91,16 +101,16 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.snsprj.sbsm.model.UserInfo">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.String">
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into user_info (user_id, nickname, avatar, 
       created_at, updated_at)
-    values (#{userId,jdbcType=INTEGER}, #{nickname,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, 
+    values (#{userId,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, 
       #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.snsprj.sbsm.model.UserInfo">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.String">
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into user_info
@@ -123,7 +133,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="userId != null">
-        #{userId,jdbcType=INTEGER},
+        #{userId,jdbcType=VARCHAR},
       </if>
       <if test="nickname != null">
         #{nickname,jdbcType=VARCHAR},
@@ -149,10 +159,10 @@
     update user_info
     <set>
       <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
+        id = #{record.id,jdbcType=VARCHAR},
       </if>
       <if test="record.userId != null">
-        user_id = #{record.userId,jdbcType=INTEGER},
+        user_id = #{record.userId,jdbcType=VARCHAR},
       </if>
       <if test="record.nickname != null">
         nickname = #{record.nickname,jdbcType=VARCHAR},
@@ -173,8 +183,8 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update user_info
-    set id = #{record.id,jdbcType=INTEGER},
-      user_id = #{record.userId,jdbcType=INTEGER},
+    set id = #{record.id,jdbcType=VARCHAR},
+      user_id = #{record.userId,jdbcType=VARCHAR},
       nickname = #{record.nickname,jdbcType=VARCHAR},
       avatar = #{record.avatar,jdbcType=VARCHAR},
       created_at = #{record.createdAt,jdbcType=TIMESTAMP},
@@ -182,5 +192,35 @@
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.snsprj.sbsm.model.UserInfo">
+    update user_info
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null">
+        nickname = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null">
+        avatar = #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        created_at = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.snsprj.sbsm.model.UserInfo">
+    update user_info
+    set user_id = #{userId,jdbcType=VARCHAR},
+      nickname = #{nickname,jdbcType=VARCHAR},
+      avatar = #{avatar,jdbcType=VARCHAR},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

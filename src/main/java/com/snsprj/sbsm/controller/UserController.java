@@ -1,26 +1,34 @@
 package com.snsprj.sbsm.controller;
 
 import com.snsprj.sbsm.common.ServerResponse;
-import com.snsprj.sbsm.model.User;
+import com.snsprj.sbsm.form.UserForm;
 import com.snsprj.sbsm.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@Slf4j
+@RestController
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @RequestMapping("/user/create")
-    @ResponseBody
-    public ServerResponse createUser(){
+    /**
+     * 新建用户
+     *
+     * @param userForm userForm
+     * @return ServerResponse
+     */
+    @PostMapping("/user/create")
+    public ServerResponse createUser(@RequestBody @Validated UserForm userForm) {
 
-        User user = new User();
-        user.setAccount("123");
+        log.info("====>");
 
-        return userService.createUser(user);
+        return userService.createUser(userForm);
     }
 }

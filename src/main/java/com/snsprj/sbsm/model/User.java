@@ -3,24 +3,30 @@ package com.snsprj.sbsm.model;
 import java.util.Date;
 
 public class User {
-    private Integer id;
+    private String id;
 
     private String account;
+
+    private String accountPinyin;
 
     private String password;
 
     private String salt;
 
+    private String mobile;
+
+    private String email;
+
     private Date createdAt;
 
     private Date updatedAt;
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setId(String id) {
+        this.id = id == null ? null : id.trim();
     }
 
     public String getAccount() {
@@ -29,6 +35,14 @@ public class User {
 
     public void setAccount(String account) {
         this.account = account == null ? null : account.trim();
+    }
+
+    public String getAccountPinyin() {
+        return accountPinyin;
+    }
+
+    public void setAccountPinyin(String accountPinyin) {
+        this.accountPinyin = accountPinyin == null ? null : accountPinyin.trim();
     }
 
     public String getPassword() {
@@ -45,6 +59,22 @@ public class User {
 
     public void setSalt(String salt) {
         this.salt = salt == null ? null : salt.trim();
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile == null ? null : mobile.trim();
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email == null ? null : email.trim();
     }
 
     public Date getCreatedAt() {

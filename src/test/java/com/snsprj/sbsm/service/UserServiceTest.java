@@ -34,7 +34,7 @@ public class UserServiceTest {
         user.setPassword("123456");
         user.setSalt("salt");
 
-        userService.createUser(user);
+//        userService.createUser(user);
 
         UserExample userExample = new UserExample();
         userExample.createCriteria().andAccountEqualTo(account);

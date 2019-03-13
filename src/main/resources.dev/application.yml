@@ -10,9 +10,9 @@ spring:
     # 配置静态资源文件路径
     static-path-pattern: /static/**
   datasource:
-    url: jdbc:mysql://192.168.3.83:3306/sbsm?useSSL=false
-    username: sbsm
-    password: sbsm
+    url: jdbc:mysql://192.168.3.53:3306/sbsm?useSSL=false
+    username: root
+    password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   servlet:
@@ -24,7 +24,7 @@ spring:
       max-request-size: 50Mb
 
   redis:
-    host: 192.168.3.83
+    host: 192.168.3.53
 #    password: foo
     port: 6379
     database: 0
@@ -50,7 +50,7 @@ server:
 #配置mybatis
 mybatis:
   type-aliases-package: com.snsprj.sbsm.model
-  mapper-locations: classpath:com/snsprj/mapper/*.xml
+  mapper-locations: classpath:mybatis/mapper/*.xml
 
 #FTP服务器配置
 ftp:

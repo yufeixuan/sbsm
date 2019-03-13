@@ -3,7 +3,7 @@ package com.snsprj.sbsm.model;
 import java.util.Date;
 
 public class QuartzJob {
-    private Integer id;
+    private String id;
 
     private String jobName;
 
@@ -19,12 +19,12 @@ public class QuartzJob {
 
     private Date updatedTime;
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setId(String id) {
+        this.id = id == null ? null : id.trim();
     }
 
     public String getJobName() {

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.snsprj.sbsm.mapper.QuartzJobMapper">
   <resultMap id="BaseResultMap" type="com.snsprj.sbsm.model.QuartzJob">
-    <result column="id" jdbcType="INTEGER" property="id" />
+    <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="job_name" jdbcType="VARCHAR" property="jobName" />
     <result column="job_group_name" jdbcType="VARCHAR" property="jobGroupName" />
     <result column="cron_expression" jdbcType="VARCHAR" property="cronExpression" />
@@ -87,6 +87,16 @@
       order by ${orderByClause}
     </if>
   </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from quartz_jobs
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from quartz_jobs
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
   <delete id="deleteByExample" parameterType="com.snsprj.sbsm.model.QuartzJobExample">
     delete from quartz_jobs
     <if test="_parameter != null">
@@ -94,7 +104,7 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.snsprj.sbsm.model.QuartzJob">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.String">
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into quartz_jobs (job_name, job_group_name, cron_expression, 
@@ -105,7 +115,7 @@
       #{updatedTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.snsprj.sbsm.model.QuartzJob">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.String">
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into quartz_jobs
@@ -166,7 +176,7 @@
     update quartz_jobs
     <set>
       <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
+        id = #{record.id,jdbcType=VARCHAR},
       </if>
       <if test="record.jobName != null">
         job_name = #{record.jobName,jdbcType=VARCHAR},
@@ -196,7 +206,7 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update quartz_jobs
-    set id = #{record.id,jdbcType=INTEGER},
+    set id = #{record.id,jdbcType=VARCHAR},
       job_name = #{record.jobName,jdbcType=VARCHAR},
       job_group_name = #{record.jobGroupName,jdbcType=VARCHAR},
       cron_expression = #{record.cronExpression,jdbcType=VARCHAR},
@@ -207,5 +217,43 @@
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.snsprj.sbsm.model.QuartzJob">
+    update quartz_jobs
+    <set>
+      <if test="jobName != null">
+        job_name = #{jobName,jdbcType=VARCHAR},
+      </if>
+      <if test="jobGroupName != null">
+        job_group_name = #{jobGroupName,jdbcType=VARCHAR},
+      </if>
+      <if test="cronExpression != null">
+        cron_expression = #{cronExpression,jdbcType=VARCHAR},
+      </if>
+      <if test="quartzClass != null">
+        quartz_class = #{quartzClass,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null">
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedTime != null">
+        updated_time = #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.snsprj.sbsm.model.QuartzJob">
+    update quartz_jobs
+    set job_name = #{jobName,jdbcType=VARCHAR},
+      job_group_name = #{jobGroupName,jdbcType=VARCHAR},
+      cron_expression = #{cronExpression,jdbcType=VARCHAR},
+      quartz_class = #{quartzClass,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      created_time = #{createdTime,jdbcType=TIMESTAMP},
+      updated_time = #{updatedTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

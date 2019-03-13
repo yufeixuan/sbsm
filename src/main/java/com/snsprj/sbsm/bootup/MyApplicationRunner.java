@@ -29,9 +29,8 @@ public class MyApplicationRunner implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
 
-        // 从数据库中查询是否有定时任务
+        // 从数据库中查询所有定时任务
         QuartzJobExample quartzJobExample = new QuartzJobExample();
-        quartzJobExample.createCriteria().andIdGreaterThan(0);
 
         List<QuartzJob> quartzJobList = quartzJobMapper.selectByExample(quartzJobExample);
 

@@ -2,10 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.snsprj.sbsm.mapper.UserMapper">
   <resultMap id="BaseResultMap" type="com.snsprj.sbsm.model.User">
-    <result column="id" jdbcType="INTEGER" property="id" />
+    <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="account" jdbcType="VARCHAR" property="account" />
+    <result column="account_pinyin" jdbcType="VARCHAR" property="accountPinyin" />
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="salt" jdbcType="VARCHAR" property="salt" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
     <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
   </resultMap>
@@ -68,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, account, password, salt, created_at, updated_at
+    id, account, account_pinyin, password, salt, mobile, email, created_at, updated_at
   </sql>
   <select id="selectByExample" parameterType="com.snsprj.sbsm.model.UserExample" resultMap="BaseResultMap">
     select
@@ -84,6 +87,16 @@
       order by ${orderByClause}
     </if>
   </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from users
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from users
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
   <delete id="deleteByExample" parameterType="com.snsprj.sbsm.model.UserExample">
     delete from users
     <if test="_parameter != null">
@@ -91,16 +104,18 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.snsprj.sbsm.model.User">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.String">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into users (account, password, salt, 
+    insert into users (account, account_pinyin, password, 
+      salt, mobile, email, 
       created_at, updated_at)
-    values (#{account,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, 
+    values (#{account,jdbcType=VARCHAR}, #{accountPinyin,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{salt,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
       #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.snsprj.sbsm.model.User">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.String">
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into users
@@ -108,11 +123,20 @@
       <if test="account != null">
         account,
       </if>
+      <if test="accountPinyin != null">
+        account_pinyin,
+      </if>
       <if test="password != null">
         password,
       </if>
       <if test="salt != null">
         salt,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+      <if test="email != null">
+        email,
       </if>
       <if test="createdAt != null">
         created_at,
@@ -125,11 +149,20 @@
       <if test="account != null">
         #{account,jdbcType=VARCHAR},
       </if>
+      <if test="accountPinyin != null">
+        #{accountPinyin,jdbcType=VARCHAR},
+      </if>
       <if test="password != null">
         #{password,jdbcType=VARCHAR},
       </if>
       <if test="salt != null">
         #{salt,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
       </if>
       <if test="createdAt != null">
         #{createdAt,jdbcType=TIMESTAMP},
@@ -149,16 +182,25 @@
     update users
     <set>
       <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
+        id = #{record.id,jdbcType=VARCHAR},
       </if>
       <if test="record.account != null">
         account = #{record.account,jdbcType=VARCHAR},
+      </if>
+      <if test="record.accountPinyin != null">
+        account_pinyin = #{record.accountPinyin,jdbcType=VARCHAR},
       </if>
       <if test="record.password != null">
         password = #{record.password,jdbcType=VARCHAR},
       </if>
       <if test="record.salt != null">
         salt = #{record.salt,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobile != null">
+        mobile = #{record.mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null">
+        email = #{record.email,jdbcType=VARCHAR},
       </if>
       <if test="record.createdAt != null">
         created_at = #{record.createdAt,jdbcType=TIMESTAMP},
@@ -173,14 +215,59 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update users
-    set id = #{record.id,jdbcType=INTEGER},
+    set id = #{record.id,jdbcType=VARCHAR},
       account = #{record.account,jdbcType=VARCHAR},
+      account_pinyin = #{record.accountPinyin,jdbcType=VARCHAR},
       password = #{record.password,jdbcType=VARCHAR},
       salt = #{record.salt,jdbcType=VARCHAR},
+      mobile = #{record.mobile,jdbcType=VARCHAR},
+      email = #{record.email,jdbcType=VARCHAR},
       created_at = #{record.createdAt,jdbcType=TIMESTAMP},
       updated_at = #{record.updatedAt,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.snsprj.sbsm.model.User">
+    update users
+    <set>
+      <if test="account != null">
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="accountPinyin != null">
+        account_pinyin = #{accountPinyin,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="salt != null">
+        salt = #{salt,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        created_at = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.snsprj.sbsm.model.User">
+    update users
+    set account = #{account,jdbcType=VARCHAR},
+      account_pinyin = #{accountPinyin,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      salt = #{salt,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

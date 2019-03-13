@@ -11,31 +11,30 @@ import java.io.Serializable;
 @JsonInclude(value = Include.NON_NULL)
 public class ServerResponse<T> implements Serializable {
 
-    private final static String SUCCESS_CODE = "200";
-
-    private String code;
+    private int code;
 
     private String msg;
 
     private T data;
 
-    public ServerResponse(){}
+    public ServerResponse() {
+    }
 
-    private ServerResponse(String code) {
+    private ServerResponse(int code) {
         this.code = code;
     }
 
-    private ServerResponse(String code, String msg) {
+    private ServerResponse(int code, String msg) {
         this.code = code;
         this.msg = msg;
     }
 
-    private ServerResponse(String code, T data) {
+    private ServerResponse(int code, T data) {
         this.code = code;
         this.data = data;
     }
 
-    private ServerResponse(String code, String msg, T data) {
+    private ServerResponse(int code, String msg, T data) {
         this.code = code;
         this.data = data;
         this.msg = msg;
@@ -43,10 +42,10 @@ public class ServerResponse<T> implements Serializable {
 
     @JsonIgnore
     public boolean isSuccess() {
-        return this.code.equals(SUCCESS_CODE);
+        return this.code == ResponseCode.SUCCESS.getCode();
     }
 
-    public String getCode() {
+    public int getCode() {
         return code;
     }
 
@@ -59,38 +58,38 @@ public class ServerResponse<T> implements Serializable {
     }
 
     public static <T> ServerResponse<T> createBySuccess() {
-        return new ServerResponse<T>(SUCCESS_CODE);
+        return new ServerResponse<T>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMsg());
     }
 
     public static <T> ServerResponse<T> createBySuccess(String msg) {
-        return new ServerResponse<T>(SUCCESS_CODE, msg);
+        return new ServerResponse<T>(ResponseCode.SUCCESS.getCode(), msg);
     }
 
     public static <T> ServerResponse<T> createBySuccess(T data) {
-        return new ServerResponse<T>(SUCCESS_CODE, data);
+        return new ServerResponse<T>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMsg(), data);
     }
 
     public static <T> ServerResponse<T> createBySuccess(String msg, T data) {
-        return new ServerResponse<T>(SUCCESS_CODE, msg, data);
+        return new ServerResponse<T>(ResponseCode.SUCCESS.getCode(), msg, data);
     }
 
-    public static <T> ServerResponse<T> createByError(String errorCode) {
+    public static <T> ServerResponse<T> createByError(int errorCode) {
         return new ServerResponse<T>(errorCode);
     }
 
-    public static <T> ServerResponse<T> createByError(String errorCode, String msg) {
+    public static <T> ServerResponse<T> createByError(int errorCode, String msg) {
         return new ServerResponse<T>(errorCode, msg);
     }
 
-    public static <T> ServerResponse<T> createByError(String errorCode, T data) {
+    public static <T> ServerResponse<T> createByError(int errorCode, T data) {
         return new ServerResponse<T>(errorCode, data);
     }
 
-    public static <T> ServerResponse<T> createByError(String errorCode, String msg, T data) {
+    public static <T> ServerResponse<T> createByError(int errorCode, String msg, T data) {
         return new ServerResponse<T>(errorCode, msg, data);
     }
 
-    public void setCode(String code) {
+    public void setCode(int code) {
         this.code = code;
     }
 

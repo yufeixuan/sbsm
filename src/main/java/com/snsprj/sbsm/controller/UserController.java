@@ -20,7 +20,7 @@ public class UserController {
     /**
      * 新建用户
      *
-     * @param userForm userForm
+     * @param userForm content-type:application/json
      * @return ServerResponse
      */
     @PostMapping("/user/create")

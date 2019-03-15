@@ -274,6 +274,35 @@ public class TestStringUtils {
         log.info("====> arr is {}", arr);
     }
 
+    @Test
+    public void testSetAddAll(){
 
+        List<Long> list0 = new ArrayList<>();
+        list0.add(1L);
+        list0.add(1L);
+        list0.add(2L);
+        list0.add(3L);
+        list0.remove(3L);
+
+        List<Long> list = new ArrayList<>();
+        list.add(1L);
+        list.add(6L);
+        list.add(4L);
+        list.add(3L);
+
+        HashSet<Long> set = new HashSet<>();
+        set.addAll(list0);
+        set.addAll(list);
+
+        System.out.println("set size is: " + set.size());
+        System.out.println(set);
+
+        List<Long> list2 = new ArrayList<>();
+        list2.add(3L);
+        list2.add(4L);
+        set.removeAll(list2);
+        System.out.println("set size is: " + set.size());
+        System.out.println(set);
+    }
 
 }

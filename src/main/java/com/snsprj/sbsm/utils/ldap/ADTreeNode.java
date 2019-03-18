@@ -11,12 +11,12 @@ public class ADTreeNode {
     /**
      * 数据库 - 主键id
      */
-    private String primaryKey;
+    private long primaryKey;
 
     /**
      * 数据库 - 父节点主键id
      */
-    private String parentPrimaryKey;
+    private long parentPrimaryKey;
 
     /**
      * AD/LDAP - distinguishedName
@@ -50,19 +50,19 @@ public class ADTreeNode {
     @Deprecated
     private String treePath;
 
-    public String getPrimaryKey() {
+    public long getPrimaryKey() {
         return primaryKey;
     }
 
-    public void setPrimaryKey(String primaryKey) {
+    public void setPrimaryKey(long primaryKey) {
         this.primaryKey = primaryKey;
     }
 
-    public String getParentPrimaryKey() {
+    public long getParentPrimaryKey() {
         return parentPrimaryKey;
     }
 
-    public void setParentPrimaryKey(String parentPrimaryKey) {
+    public void setParentPrimaryKey(long parentPrimaryKey) {
         this.parentPrimaryKey = parentPrimaryKey;
     }
 

@@ -1,6 +1,7 @@
 package com.snsprj.sbsm.utils.ldap;
 
 import com.snsprj.sbsm.utils.UUIDUtil;
+import com.snsprj.sbsm.utils.idc.IdCenter;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,7 +37,7 @@ public class OrganizationUtil {
             for (Map<String, String> organizationMap : organizationList) {
                 ADTreeNode currentNode = (ADTreeNode) mapToObject(organizationMap, ADTreeNode.class);
 
-                String primaryKey = UUIDUtil.getUUID();
+                long primaryKey = IdCenter.getId();
                 currentNode.setPrimaryKey(primaryKey);
 
                 String dn = currentNode.getDn();
@@ -56,7 +57,7 @@ public class OrganizationUtil {
                 } else {
                     // 该节点存在父节点，把当前节点加入父节点
                     // 设置子节点的parentPrimaryKey
-                    String parentPrimaryKey = parentNode.getPrimaryKey();
+                    long parentPrimaryKey = parentNode.getPrimaryKey();
                     node.setParentPrimaryKey(parentPrimaryKey);
 
                     parentNode.getChildNodeList().add(node);

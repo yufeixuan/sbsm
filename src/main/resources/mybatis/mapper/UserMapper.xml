@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.snsprj.sbsm.mapper.UserMapper">
   <resultMap id="BaseResultMap" type="com.snsprj.sbsm.model.User">
-    <id column="id" jdbcType="VARCHAR" property="id" />
+    <id column="id" jdbcType="BIGINT" property="id" />
     <result column="account" jdbcType="VARCHAR" property="account" />
     <result column="account_pinyin" jdbcType="VARCHAR" property="accountPinyin" />
     <result column="password" jdbcType="VARCHAR" property="password" />
@@ -87,15 +87,15 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from users
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from users
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.snsprj.sbsm.model.UserExample">
     delete from users
@@ -104,7 +104,7 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.snsprj.sbsm.model.User">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.String">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into users (account, account_pinyin, password, 
@@ -115,7 +115,7 @@
       #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.snsprj.sbsm.model.User">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.String">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into users
@@ -182,7 +182,7 @@
     update users
     <set>
       <if test="record.id != null">
-        id = #{record.id,jdbcType=VARCHAR},
+        id = #{record.id,jdbcType=BIGINT},
       </if>
       <if test="record.account != null">
         account = #{record.account,jdbcType=VARCHAR},
@@ -215,7 +215,7 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update users
-    set id = #{record.id,jdbcType=VARCHAR},
+    set id = #{record.id,jdbcType=BIGINT},
       account = #{record.account,jdbcType=VARCHAR},
       account_pinyin = #{record.accountPinyin,jdbcType=VARCHAR},
       password = #{record.password,jdbcType=VARCHAR},
@@ -256,7 +256,7 @@
         updated_at = #{updatedAt,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.snsprj.sbsm.model.User">
     update users
@@ -268,6 +268,6 @@
       email = #{email,jdbcType=VARCHAR},
       created_at = #{createdAt,jdbcType=TIMESTAMP},
       updated_at = #{updatedAt,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

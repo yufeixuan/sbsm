@@ -3,7 +3,7 @@ package com.snsprj.sbsm.model;
 import java.util.Date;
 
 public class User {
-    private String id;
+    private Long id;
 
     private String account;
 
@@ -21,12 +21,12 @@ public class User {
 
     private Date updatedAt;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id == null ? null : id.trim();
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getAccount() {

@@ -33,16 +33,16 @@
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
 
-        <javaClientGenerator targetPackage="com.snsprj.sbsm.mapper" type="XMLMAPPER"
-          targetProject="src/main/java">
-            <property name="enableSubPackages" value="true"/>
-        </javaClientGenerator>
-
+        <!-- 标签区分顺序 -->
         <!-- mapper xml file -->
         <sqlMapGenerator targetPackage="mybatis.mapper" targetProject="src/main/resources">
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
 
+        <javaClientGenerator targetPackage="com.snsprj.sbsm.mapper" type="XMLMAPPER"
+          targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
 
         <table schema="sbsm" tableName="user_info" domainObjectName="UserInfo">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>

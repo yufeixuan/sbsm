@@ -3,9 +3,9 @@ package com.snsprj.sbsm.model;
 import java.util.Date;
 
 public class UserInfo {
-    private String id;
+    private Long id;
 
-    private String userId;
+    private Long userId;
 
     private String nickname;
 
@@ -15,20 +15,20 @@ public class UserInfo {
 
     private Date updatedAt;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id == null ? null : id.trim();
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId == null ? null : userId.trim();
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getNickname() {

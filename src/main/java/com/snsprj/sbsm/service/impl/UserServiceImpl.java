@@ -8,6 +8,7 @@ import com.snsprj.sbsm.model.User;
 import com.snsprj.sbsm.service.UserService;
 import com.snsprj.sbsm.utils.Chinese2PinyinUtil;
 import com.snsprj.sbsm.utils.UUIDUtil;
+import com.snsprj.sbsm.utils.idc.IdCenter;
 import lombok.extern.slf4j.Slf4j;
 import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,7 @@ public class UserServiceImpl implements UserService {
             return null;
         }else {
             user = new User();
-            user.setId(UUIDUtil.getUUID());
+            user.setId(IdCenter.getId());
             user.setAccount(account);
             try {
                 user.setAccountPinyin(Chinese2PinyinUtil.toPinYin(account));

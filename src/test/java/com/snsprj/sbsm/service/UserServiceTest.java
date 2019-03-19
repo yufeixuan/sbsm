@@ -3,15 +3,20 @@ package com.snsprj.sbsm.service;
 import com.snsprj.sbsm.mapper.UserMapper;
 import com.snsprj.sbsm.model.User;
 import com.snsprj.sbsm.model.UserExample;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
+import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -26,7 +31,7 @@ public class UserServiceTest {
 
     @Test
 //    @Transactional
-    public void userCreateTest(){
+    public void userCreateTest() {
 
         String account = "😭😄🍌";
         User user = new User();
@@ -47,7 +52,7 @@ public class UserServiceTest {
 
     @Test
 //    @Transactional
-    public void test(){
+    public void test() {
 
         String account = "😭😄🍌";
 
@@ -60,4 +65,43 @@ public class UserServiceTest {
         Assert.assertEquals(1, userList.size());
     }
 
+
+    @Autowired
+    private NamedParameterJdbcTemplate jdbcTemplate;
+
+    @Test
+//    @Transactional
+    public void testBathInsert() {
+
+        String sql = "INSERT INTO user_info(id, user_id, nickname, avatar, created_at ,updated_at) "
+            + "VALUES (:id,:userId,:nickname,:avatar,now(),now())";
+        Map<String, Object>[] valueArr = new Map[5];
+        for (int index = 0; index < 5; index ++){
+            Map<String, Object> valueMap = new HashMap<>();
+            valueMap.put("id", index + 1);
+            valueMap.put("userId", index + 2);
+            valueMap.put("nickname", "nickname");
+            valueMap.put("avatar", "avatar");
+            valueArr[index] = valueMap;
+        }
+
+        int[] updateCountArr = jdbcTemplate.batchUpdate(sql, valueArr);
+        log.info("====>updateCountArr is {}", updateCountArr);
+    }
+
+    @Test
+    public void testBathDelete(){
+
+        String sql = "DELETE FROM user_info WHERE user_id= :userId AND  id = :id";
+        Map<String, Object>[] valueArr = new Map[5];
+        for (int index = 0; index < 5; index ++){
+            Map<String, Object> valueMap = new HashMap<>();
+            valueMap.put("id", index + 1);
+            valueMap.put("userId", index + 2);
+            valueArr[index] = valueMap;
+        }
+
+        int[] updateCountArr = jdbcTemplate.batchUpdate(sql, valueArr);
+        log.info("====>updateCountArr is {}", updateCountArr);
+    }
 }

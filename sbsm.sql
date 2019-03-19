@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS `quartz_jobs`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `quartz_jobs` (
-  `id` varchar(40) NOT NULL COMMENT '系统生成32位UUID,非自增id',
+  `id` bigint(20) NOT NULL COMMENT '非自增id',
   `job_name` varchar(20) NOT NULL COMMENT '任务名称',
   `job_group_name` varchar(45) NOT NULL COMMENT '任务组名称',
   `cron_expression` varchar(45) NOT NULL COMMENT '时间表达式',
@@ -53,8 +53,8 @@ DROP TABLE IF EXISTS `user_info`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user_info` (
-  `id` varchar(40) NOT NULL COMMENT '系统生成32位UUID,非自增id',
-  `user_id` varchar(40) NOT NULL,
+  `id` bigint(20) NOT NULL COMMENT '非自增id',
+  `user_id` bigint(20) NOT NULL,
   `nickname` varchar(45) DEFAULT NULL,
   `avatar` varchar(300) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -71,6 +71,7 @@ CREATE TABLE `user_info` (
 
 LOCK TABLES `user_info` WRITE;
 /*!40000 ALTER TABLE `user_info` DISABLE KEYS */;
+INSERT INTO `user_info` VALUES (1,2,'nickname','avatar','2019-03-18 06:11:08','2019-03-18 06:11:08'),(2,3,'nickname','avatar','2019-03-18 06:11:08','2019-03-18 06:11:08'),(3,4,'nickname','avatar','2019-03-18 06:11:08','2019-03-18 06:11:08'),(4,5,'nickname','avatar','2019-03-18 06:11:08','2019-03-18 06:11:08'),(5,6,'nickname','avatar','2019-03-18 06:11:08','2019-03-18 06:11:08');
 /*!40000 ALTER TABLE `user_info` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -82,17 +83,19 @@ DROP TABLE IF EXISTS `users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `users` (
-  `id` varchar(40) COLLATE utf8mb4_bin NOT NULL COMMENT '系统生成32位UUID,非自增id',
+  `id` bigint(20) NOT NULL COMMENT '非自增id',
   `account` varchar(20) COLLATE utf8mb4_bin NOT NULL,
   `account_pinyin` varchar(100) COLLATE utf8mb4_bin NOT NULL COMMENT 'account的拼音，用于account排序。',
   `password` varchar(100) COLLATE utf8mb4_bin NOT NULL,
   `salt` varchar(50) COLLATE utf8mb4_bin NOT NULL COMMENT '盐值',
-  `mobile` varchar(20) COLLATE utf8mb4_bin NOT NULL DEFAULT '' COMMENT '手机号,不可为null,默认值为''''',
+  `mobile` varchar(20) COLLATE utf8mb4_bin NOT NULL DEFAULT '' COMMENT '手机号,不可为null,默认值为'''',可用于登录',
+  `email` varchar(50) COLLATE utf8mb4_bin NOT NULL DEFAULT '' COMMENT '邮箱,不可为null,默认值为'''',可用于登录',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `index_account` (`account`),
-  UNIQUE KEY `index_mobile` (`mobile`),
+  UNIQUE KEY `unique_account` (`account`),
+  UNIQUE KEY `unique_mobile` (`mobile`),
+  UNIQUE KEY `unique_email` (`email`),
   KEY `index_account_pinyin` (`account_pinyin`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -115,4 +118,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-03-12 23:26:54
+-- Dump completed on 2019-03-18 23:26:09

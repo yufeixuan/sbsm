@@ -10,7 +10,7 @@ public interface QuartzJobMapper {
 
     int deleteByExample(QuartzJobExample example);
 
-    int deleteByPrimaryKey(String id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(QuartzJob record);
 
@@ -18,7 +18,7 @@ public interface QuartzJobMapper {
 
     List<QuartzJob> selectByExample(QuartzJobExample example);
 
-    QuartzJob selectByPrimaryKey(String id);
+    QuartzJob selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") QuartzJob record, @Param("example") QuartzJobExample example);
 

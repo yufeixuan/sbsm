@@ -244,7 +244,7 @@ public class HttpUtil {
 
 
     /**
-     * 构造请求头，默认增加Content-Type: application/x-www-form-urlencoded
+     * 构造请求头，默认增加Content-Type: application/x-www-vo-urlencoded
      *
      * @param headerMap heads
      * @return Header
@@ -261,7 +261,7 @@ public class HttpUtil {
         }
 
         if (!headerMap.containsKey("Content-Type")) {
-            headerMap.put("Content-Type", "application/x-www-form-urlencoded");
+            headerMap.put("Content-Type", "application/x-www-vo-urlencoded");
         }
 
         for (Entry<String, String> entry : headerMap.entrySet()) {

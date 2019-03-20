@@ -61,7 +61,7 @@ public class TestController {
 
     /**
      * 基本类型的集合；基本类型
-     * Content-Type: application/x-www-form-urlencoded
+     * Content-Type: application/x-www-vo-urlencoded
      *
      * @param nameList nameList
      * @param classId classId

@@ -1,7 +1,7 @@
 package com.snsprj.sbsm.controller;
 
 import com.snsprj.sbsm.common.ServerResponse;
-import com.snsprj.sbsm.form.UserForm;
+import com.snsprj.sbsm.vo.UserVo;
 import com.snsprj.sbsm.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +20,14 @@ public class UserController {
     /**
      * 新建用户
      *
-     * @param userForm content-type:application/json
+     * @param userVo content-type:application/json
      * @return ServerResponse
      */
     @PostMapping("/user/create")
-    public ServerResponse createUser(@RequestBody @Validated UserForm userForm) {
+    public ServerResponse createUser(@RequestBody @Validated UserVo userVo) {
 
         log.info("====>");
 
-        return userService.createUser(userForm);
+        return userService.createUser(userVo);
     }
 }

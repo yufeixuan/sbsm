@@ -1,8 +1,6 @@
-package com.snsprj.sbsm.form;
+package com.snsprj.sbsm.vo;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import lombok.Getter;
@@ -13,7 +11,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class UserForm {
+public class UserVo {
 
     /**
      * 账号。不可为空。字母、数字、下划线组合，不能为纯数字，长度最小为6位，最长16位

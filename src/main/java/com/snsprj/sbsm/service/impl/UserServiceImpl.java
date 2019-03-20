@@ -1,13 +1,12 @@
 package com.snsprj.sbsm.service.impl;
 
 import com.snsprj.sbsm.common.ServerResponse;
-import com.snsprj.sbsm.form.UserForm;
+import com.snsprj.sbsm.vo.UserVo;
 import com.snsprj.sbsm.mapper.UserManualMapper;
 import com.snsprj.sbsm.mapper.UserMapper;
 import com.snsprj.sbsm.model.User;
 import com.snsprj.sbsm.service.UserService;
 import com.snsprj.sbsm.utils.Chinese2PinyinUtil;
-import com.snsprj.sbsm.utils.UUIDUtil;
 import com.snsprj.sbsm.utils.idc.IdCenter;
 import lombok.extern.slf4j.Slf4j;
 import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
@@ -27,9 +26,9 @@ public class UserServiceImpl implements UserService {
     private UserManualMapper userManualMapper;
 
     @Override
-    public ServerResponse createUser(UserForm userForm) {
+    public ServerResponse createUser(UserVo userVo) {
 
-        String account = userForm.getAccount();
+        String account = userVo.getAccount();
         log.info("====>insert user, user account is {}", account);
 
         User user = userManualMapper.getUserByAccount(account);
@@ -51,8 +50,8 @@ public class UserServiceImpl implements UserService {
             user.setSalt("123456");
             user.setPassword("123456");
 
-            user.setEmail(userForm.getEmail());
-            user.setMobile(userForm.getMobile());
+            user.setEmail(userVo.getEmail());
+            user.setMobile(userVo.getMobile());
             userMapper.insert(user);
 
             return ServerResponse.createBySuccess();

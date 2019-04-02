@@ -305,4 +305,74 @@ public class TestStringUtils {
         System.out.println(set);
     }
 
+
+    @Test
+    public void testCompareVersion(){
+
+        String sourceVersion = "29";
+        String targetVersion = "31";
+        int ret = this.compareVersionCode(sourceVersion, targetVersion);
+        log.info("");
+    }
+    /**
+     * 比较两个应用的VersionCode
+     * @param sourceVersion
+     * @param targetVersion
+     * @return 1代表source>target -1代表source<target 0代表source=target
+     */
+    private int compareVersionCode(String sourceVersion, String targetVersion) {
+        if (sourceVersion.contains(".")) {
+            String[] vs1 = sourceVersion.split("[.]");
+            String[] vs2 = targetVersion.split("[.]");
+            if (vs1.length > vs2.length) {
+                for (int i = 0; i < vs2.length; i++) {
+                    if (Math.subtractExact(Integer.valueOf(vs1[i]), Integer.valueOf(vs2[i])) > 0) {
+                        return 1;
+                    } else if (Math.subtractExact(Integer.valueOf(vs1[i]), Integer.valueOf(vs2[i])) < 0) {
+                        return -1;
+                    }
+                }
+                //vs1: 3.3.0   vs2:  3.3
+                if (Integer.valueOf(vs1[vs2.length]) != 0){
+                    return 1;
+                }
+            }else if (vs1.length == vs2.length){
+                for (int i = 0; i < vs1.length; i++) {
+                    if (Math.subtractExact(Integer.valueOf(vs1[i]), Integer.valueOf(vs2[i])) > 0) {
+                        return 1;
+                    } else if (Math.subtractExact(Integer.valueOf(vs1[i]), Integer.valueOf(vs2[i])) < 0) {
+                        return -1;
+                    }
+                }
+            }else if (vs1.length < vs2.length){
+                for (int i = 0; i < vs1.length; i++) {
+                    if (Math.subtractExact(Integer.valueOf(vs1[i]), Integer.valueOf(vs2[i])) > 0) {
+                        return 1;
+                    } else if (Math.subtractExact(Integer.valueOf(vs1[i]), Integer.valueOf(vs2[i])) < 0) {
+                        return -1;
+                    }
+                }
+                //vs1: 3.3.0   vs2:  3.3
+                if (Integer.valueOf(vs2[vs1.length]) != 0){
+                    return -1;
+                }
+            }
+        }else {
+            int vs1 = Integer.valueOf(sourceVersion);
+            int vs2 = Integer.valueOf(targetVersion);
+            return vs1-vs2;
+        }
+        return 0;
+    }
+
+    @Test
+    public void testDeleteCharAt(){
+        StringBuilder str = new StringBuilder("sdf");
+
+        str.deleteCharAt(str.length()-1);
+
+        System.out.println("--------------" + str);
+
+    }
+
 }

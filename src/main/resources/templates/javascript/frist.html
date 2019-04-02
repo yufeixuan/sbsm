@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>javascript Learn</title>
+
+  <script>
+      var person = {
+          name: "bb",
+          id: 123
+      };
+
+      function myFunction() {
+          alert("Hello world!");
+      };
+
+
+  </script>
+</head>
+<body onload="startTime()">
+<div id="txt"></div>
+<p id="userName"></p>
+<p id="result"></p>
+
+<button onclick="myFunction()" value="OK">点击</button>
+
+<button onclick="hello('baoge')" value="OK">点击</button>
+
+<form onsubmit="return validate_form(this)" method="post">
+  Email:<input type="text" name="email" size="30">
+  <input type="submit" value="提交">
+</form>
+
+
+<script>
+    document.getElementById("userName").innerHTML = person.name;
+
+    function hello(name) {
+        alert("Hello " + name);
+    };
+
+    function multiplication(num1, num2) {
+        return num1 * num2
+    }
+
+    document.getElementById("result").innerHTML = multiplication(2, 3);
+
+    function validate_required(filed, alerttxt) {
+        with (filed) {
+            if (value == null || value == "") {
+                alert(alerttxt);
+                return false;
+            }
+        }
+    }
+
+    function validate_form(thisFrom) {
+        with (thisFrom) {
+            if (validate_required(email, "Email must be filled out!") == false) {
+                email.focus();
+                return false;
+            }
+        }
+    }
+
+    function person(firstName, lastName, age) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+
+        this.changeName = changeName;
+
+        function changeName(name) {
+            this.lastName = name;
+        }
+    }
+
+    foo = new person("yeah", "foo", 5000);
+    foo.changeName("oof");
+    alert(foo.lastName);
+
+    // var maxNum = Number.MAX_VALUE;
+    // alert(maxNum);
+
+    function startTime() {
+        var today = new Date();
+        var hour = today.getDay();
+        var minute = today.getMinutes();
+        var second = today.getSeconds();
+
+        minute = checkTime(minute);
+        second = checkTime(second);
+
+        document.getElementById("txt").innerHTML = hour + ":" + minute + ":" + second;
+        setTimeout('startTime()', 500);
+    }
+
+    function checkTime(i) {
+        if (i < 10) {
+            i = "0" + i;
+        }
+        return i;
+    }
+</script>
+</body>
+</html>

@@ -49,6 +49,7 @@
         </table>
         <table schema="sbsm" tableName="tb_user" domainObjectName="User">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+            <columnOverride column="is_deleted" property="userIsDeleted" javaType="java.lang.Boolean"/>
         </table>
         <table schema="sbsm" tableName="tb_quartz_job" domainObjectName="QuartzJob">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>

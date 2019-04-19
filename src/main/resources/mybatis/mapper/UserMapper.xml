@@ -9,7 +9,7 @@
     <result column="salt" jdbcType="VARCHAR" property="salt" />
     <result column="mobile" jdbcType="VARCHAR" property="mobile" />
     <result column="email" jdbcType="VARCHAR" property="email" />
-    <result column="user_deleted" jdbcType="BIT" property="userDeleted" />
+    <result column="is_deleted" jdbcType="BIT" property="userIsDeleted" />
     <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
     <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
   </resultMap>
@@ -72,7 +72,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, account, account_pinyin, password, salt, mobile, email, user_deleted, created_at, 
+    id, account, account_pinyin, password, salt, mobile, email, is_deleted, created_at, 
     updated_at
   </sql>
   <select id="selectByExample" parameterType="com.snsprj.sbsm.model.UserExample" resultMap="BaseResultMap">
@@ -111,11 +111,11 @@
     </selectKey>
     insert into tb_user (account, account_pinyin, password, 
       salt, mobile, email, 
-      user_deleted, created_at, updated_at
+      is_deleted, created_at, updated_at
       )
     values (#{account,jdbcType=VARCHAR}, #{accountPinyin,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{salt,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
-      #{userDeleted,jdbcType=BIT}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}
+      #{userIsDeleted,jdbcType=BIT}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.snsprj.sbsm.model.User">
@@ -142,8 +142,8 @@
       <if test="email != null">
         email,
       </if>
-      <if test="userDeleted != null">
-        user_deleted,
+      <if test="userIsDeleted != null">
+        is_deleted,
       </if>
       <if test="createdAt != null">
         created_at,
@@ -171,8 +171,8 @@
       <if test="email != null">
         #{email,jdbcType=VARCHAR},
       </if>
-      <if test="userDeleted != null">
-        #{userDeleted,jdbcType=BIT},
+      <if test="userIsDeleted != null">
+        #{userIsDeleted,jdbcType=BIT},
       </if>
       <if test="createdAt != null">
         #{createdAt,jdbcType=TIMESTAMP},
@@ -212,8 +212,8 @@
       <if test="record.email != null">
         email = #{record.email,jdbcType=VARCHAR},
       </if>
-      <if test="record.userDeleted != null">
-        user_deleted = #{record.userDeleted,jdbcType=BIT},
+      <if test="record.userIsDeleted != null">
+        is_deleted = #{record.userIsDeleted,jdbcType=BIT},
       </if>
       <if test="record.createdAt != null">
         created_at = #{record.createdAt,jdbcType=TIMESTAMP},
@@ -235,7 +235,7 @@
       salt = #{record.salt,jdbcType=VARCHAR},
       mobile = #{record.mobile,jdbcType=VARCHAR},
       email = #{record.email,jdbcType=VARCHAR},
-      user_deleted = #{record.userDeleted,jdbcType=BIT},
+      is_deleted = #{record.userIsDeleted,jdbcType=BIT},
       created_at = #{record.createdAt,jdbcType=TIMESTAMP},
       updated_at = #{record.updatedAt,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
@@ -263,8 +263,8 @@
       <if test="email != null">
         email = #{email,jdbcType=VARCHAR},
       </if>
-      <if test="userDeleted != null">
-        user_deleted = #{userDeleted,jdbcType=BIT},
+      <if test="userIsDeleted != null">
+        is_deleted = #{userIsDeleted,jdbcType=BIT},
       </if>
       <if test="createdAt != null">
         created_at = #{createdAt,jdbcType=TIMESTAMP},
@@ -283,7 +283,7 @@
       salt = #{salt,jdbcType=VARCHAR},
       mobile = #{mobile,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
-      user_deleted = #{userDeleted,jdbcType=BIT},
+      is_deleted = #{userIsDeleted,jdbcType=BIT},
       created_at = #{createdAt,jdbcType=TIMESTAMP},
       updated_at = #{updatedAt,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}

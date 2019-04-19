@@ -585,63 +585,63 @@ public class UserExample {
             return (Criteria) this;
         }
 
-        public Criteria andUserDeletedIsNull() {
-            addCriterion("user_deleted is null");
+        public Criteria andUserIsDeletedIsNull() {
+            addCriterion("is_deleted is null");
             return (Criteria) this;
         }
 
-        public Criteria andUserDeletedIsNotNull() {
-            addCriterion("user_deleted is not null");
+        public Criteria andUserIsDeletedIsNotNull() {
+            addCriterion("is_deleted is not null");
             return (Criteria) this;
         }
 
-        public Criteria andUserDeletedEqualTo(Boolean value) {
-            addCriterion("user_deleted =", value, "userDeleted");
+        public Criteria andUserIsDeletedEqualTo(Boolean value) {
+            addCriterion("is_deleted =", value, "userIsDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andUserDeletedNotEqualTo(Boolean value) {
-            addCriterion("user_deleted <>", value, "userDeleted");
+        public Criteria andUserIsDeletedNotEqualTo(Boolean value) {
+            addCriterion("is_deleted <>", value, "userIsDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andUserDeletedGreaterThan(Boolean value) {
-            addCriterion("user_deleted >", value, "userDeleted");
+        public Criteria andUserIsDeletedGreaterThan(Boolean value) {
+            addCriterion("is_deleted >", value, "userIsDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andUserDeletedGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("user_deleted >=", value, "userDeleted");
+        public Criteria andUserIsDeletedGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_deleted >=", value, "userIsDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andUserDeletedLessThan(Boolean value) {
-            addCriterion("user_deleted <", value, "userDeleted");
+        public Criteria andUserIsDeletedLessThan(Boolean value) {
+            addCriterion("is_deleted <", value, "userIsDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andUserDeletedLessThanOrEqualTo(Boolean value) {
-            addCriterion("user_deleted <=", value, "userDeleted");
+        public Criteria andUserIsDeletedLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_deleted <=", value, "userIsDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andUserDeletedIn(List<Boolean> values) {
-            addCriterion("user_deleted in", values, "userDeleted");
+        public Criteria andUserIsDeletedIn(List<Boolean> values) {
+            addCriterion("is_deleted in", values, "userIsDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andUserDeletedNotIn(List<Boolean> values) {
-            addCriterion("user_deleted not in", values, "userDeleted");
+        public Criteria andUserIsDeletedNotIn(List<Boolean> values) {
+            addCriterion("is_deleted not in", values, "userIsDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andUserDeletedBetween(Boolean value1, Boolean value2) {
-            addCriterion("user_deleted between", value1, value2, "userDeleted");
+        public Criteria andUserIsDeletedBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_deleted between", value1, value2, "userIsDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andUserDeletedNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("user_deleted not between", value1, value2, "userDeleted");
+        public Criteria andUserIsDeletedNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_deleted not between", value1, value2, "userIsDeleted");
             return (Criteria) this;
         }
 

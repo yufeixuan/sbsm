@@ -26,7 +26,7 @@ spring:
   # 配置redis集群
   redis:
     host: 192.168.3.53
-#    password: foo
+    password: foo
     port: 6379
     database: 0
     lettuce:
@@ -41,6 +41,15 @@ spring:
   session:
     store-type: redis
 
+  rabbitmq:
+    host: 192.168.3.53
+    port: 5672
+    username: root
+    password: root
+    virtual-host: /
+
+
+
 #配置项目启动端口
 server:
   port: 8070
@@ -49,8 +58,9 @@ server:
 
 #配置mybatis
 mybatis:
-  type-aliases-package: com.snsprj.sbsm.model
+#  type-aliases-package: com.snsprj.sbsm.model
   mapper-locations: classpath:mybatis/mapper/*.xml
+
 
 #FTP服务器配置
 ftp:

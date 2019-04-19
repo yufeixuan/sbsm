@@ -44,13 +44,13 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
-        <table schema="sbsm" tableName="user_info" domainObjectName="UserInfo">
+        <table schema="sbsm" tableName="tb_user_info" domainObjectName="UserInfo">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
-        <table schema="sbsm" tableName="users" domainObjectName="User">
+        <table schema="sbsm" tableName="tb_user" domainObjectName="User">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
-        <table schema="sbsm" tableName="quartz_jobs" domainObjectName="QuartzJob">
+        <table schema="sbsm" tableName="tb_quartz_job" domainObjectName="QuartzJob">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
     </context>

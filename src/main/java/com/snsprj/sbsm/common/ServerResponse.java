@@ -11,14 +11,21 @@ import java.io.Serializable;
 @JsonInclude(value = Include.NON_NULL)
 public class ServerResponse<T> implements Serializable {
 
+    /**
+     * idea 自动生成 serialVersionUID
+     */
+    private static final long serialVersionUID = 100564734080171307L;
+
     private int code;
 
     private String msg;
 
     private T data;
 
-    public ServerResponse() {
-    }
+    /**
+     * 必须有一个公共的缺省构造函数。
+     */
+    public ServerResponse() {}
 
     private ServerResponse(int code) {
         this.code = code;

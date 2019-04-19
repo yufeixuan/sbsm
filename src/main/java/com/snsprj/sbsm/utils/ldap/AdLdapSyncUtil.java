@@ -164,14 +164,17 @@ public class AdLdapSyncUtil {
                 if (StringUtils.equalsIgnoreCase(attributeKey, "objectGUID")) {
                     byte[] objectGUID = (byte[]) e.next();
                     attributeValue = this.getGUID(objectGUID);
-                    row.put("uuid", attributeValue);
+                    row.put("guid", attributeValue);
                 } else {
-                    attributeValue = e.next().toString();
-                    row.put(attributeKey, attributeValue);
+                    while (e.hasMore()){
+                        attributeValue = e.next().toString();
+                        attributeValue = row.containsKey(attributeKey) ? row.get(attributeKey) + "," + attributeValue : attributeValue;
+                        row.put(attributeKey, attributeValue);
+                    }
                 }
             }
         } catch (NamingException e) {
-            e.printStackTrace();
+            log.error("====>getAttributeRecord error!",e);
         }
 
         return row;
@@ -223,7 +226,7 @@ public class AdLdapSyncUtil {
         try {
             ldapContext = new InitialLdapContext(ldapEnv, null);
         } catch (NamingException e) {
-            log.error("====>error occur,", e);
+            log.error("====>getLdapContext error!", e);
         }
 
         return ldapContext;

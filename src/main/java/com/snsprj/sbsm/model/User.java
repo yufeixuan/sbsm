@@ -17,6 +17,8 @@ public class User {
 
     private String email;
 
+    private Boolean userDeleted;
+
     private Date createdAt;
 
     private Date updatedAt;
@@ -75,6 +77,14 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email == null ? null : email.trim();
+    }
+
+    public Boolean getUserDeleted() {
+        return userDeleted;
+    }
+
+    public void setUserDeleted(Boolean userDeleted) {
+        this.userDeleted = userDeleted;
     }
 
     public Date getCreatedAt() {

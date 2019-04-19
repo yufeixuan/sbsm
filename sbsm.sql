@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.7.10, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.25, for Linux (x86_64)
 --
--- Host: mysql-server    Database: sbsm
+-- Host: localhost    Database: sbsm
 -- ------------------------------------------------------
--- Server version       5.6.43
+-- Server version	5.7.25
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -16,13 +16,13 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `quartz_jobs`
+-- Table structure for table `tb_quartz_job`
 --
 
-DROP TABLE IF EXISTS `quartz_jobs`;
+DROP TABLE IF EXISTS `tb_quartz_job`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `quartz_jobs` (
+CREATE TABLE `tb_quartz_job` (
   `id` bigint(20) NOT NULL COMMENT '非自增id',
   `job_name` varchar(20) NOT NULL COMMENT '任务名称',
   `job_group_name` varchar(45) NOT NULL COMMENT '任务组名称',
@@ -37,22 +37,57 @@ CREATE TABLE `quartz_jobs` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `quartz_jobs`
+-- Dumping data for table `tb_quartz_job`
 --
 
-LOCK TABLES `quartz_jobs` WRITE;
-/*!40000 ALTER TABLE `quartz_jobs` DISABLE KEYS */;
-/*!40000 ALTER TABLE `quartz_jobs` ENABLE KEYS */;
+LOCK TABLES `tb_quartz_job` WRITE;
+/*!40000 ALTER TABLE `tb_quartz_job` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tb_quartz_job` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `user_info`
+-- Table structure for table `tb_user`
 --
 
-DROP TABLE IF EXISTS `user_info`;
+DROP TABLE IF EXISTS `tb_user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `user_info` (
+CREATE TABLE `tb_user` (
+  `id` bigint(20) NOT NULL COMMENT '非自增id',
+  `account` varchar(20) COLLATE utf8mb4_bin NOT NULL,
+  `account_pinyin` varchar(100) COLLATE utf8mb4_bin NOT NULL COMMENT 'account的拼音，用于account排序。',
+  `password` varchar(100) COLLATE utf8mb4_bin NOT NULL,
+  `salt` varchar(50) COLLATE utf8mb4_bin NOT NULL COMMENT '盐值',
+  `mobile` varchar(20) COLLATE utf8mb4_bin NOT NULL DEFAULT '' COMMENT '手机号,不可为null,默认值为'''',可用于登录',
+  `email` varchar(50) COLLATE utf8mb4_bin NOT NULL DEFAULT '' COMMENT '邮箱,不可为null,默认值为'''',可用于登录',
+  `user_deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT '用户是否删除。0：未删除；1：删除',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_account` (`account`),
+  UNIQUE KEY `unique_mobile` (`mobile`),
+  UNIQUE KEY `unique_email` (`email`),
+  KEY `index_account_pinyin` (`account_pinyin`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tb_user`
+--
+
+LOCK TABLES `tb_user` WRITE;
+/*!40000 ALTER TABLE `tb_user` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tb_user` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tb_user_info`
+--
+
+DROP TABLE IF EXISTS `tb_user_info`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tb_user_info` (
   `id` bigint(20) NOT NULL COMMENT '非自增id',
   `user_id` bigint(20) NOT NULL,
   `nickname` varchar(45) DEFAULT NULL,
@@ -66,47 +101,12 @@ CREATE TABLE `user_info` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `user_info`
+-- Dumping data for table `tb_user_info`
 --
 
-LOCK TABLES `user_info` WRITE;
-/*!40000 ALTER TABLE `user_info` DISABLE KEYS */;
-INSERT INTO `user_info` VALUES (1,2,'nickname','avatar','2019-03-18 06:11:08','2019-03-18 06:11:08'),(2,3,'nickname','avatar','2019-03-18 06:11:08','2019-03-18 06:11:08'),(3,4,'nickname','avatar','2019-03-18 06:11:08','2019-03-18 06:11:08'),(4,5,'nickname','avatar','2019-03-18 06:11:08','2019-03-18 06:11:08'),(5,6,'nickname','avatar','2019-03-18 06:11:08','2019-03-18 06:11:08');
-/*!40000 ALTER TABLE `user_info` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `users`
---
-
-DROP TABLE IF EXISTS `users`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `users` (
-  `id` bigint(20) NOT NULL COMMENT '非自增id',
-  `account` varchar(20) COLLATE utf8mb4_bin NOT NULL,
-  `account_pinyin` varchar(100) COLLATE utf8mb4_bin NOT NULL COMMENT 'account的拼音，用于account排序。',
-  `password` varchar(100) COLLATE utf8mb4_bin NOT NULL,
-  `salt` varchar(50) COLLATE utf8mb4_bin NOT NULL COMMENT '盐值',
-  `mobile` varchar(20) COLLATE utf8mb4_bin NOT NULL DEFAULT '' COMMENT '手机号,不可为null,默认值为'''',可用于登录',
-  `email` varchar(50) COLLATE utf8mb4_bin NOT NULL DEFAULT '' COMMENT '邮箱,不可为null,默认值为'''',可用于登录',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `unique_account` (`account`),
-  UNIQUE KEY `unique_mobile` (`mobile`),
-  UNIQUE KEY `unique_email` (`email`),
-  KEY `index_account_pinyin` (`account_pinyin`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `users`
---
-
-LOCK TABLES `users` WRITE;
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+LOCK TABLES `tb_user_info` WRITE;
+/*!40000 ALTER TABLE `tb_user_info` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tb_user_info` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -118,4 +118,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-03-18 23:26:09
+-- Dump completed on 2019-04-19 17:11:13

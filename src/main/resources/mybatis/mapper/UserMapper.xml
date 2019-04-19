@@ -9,6 +9,7 @@
     <result column="salt" jdbcType="VARCHAR" property="salt" />
     <result column="mobile" jdbcType="VARCHAR" property="mobile" />
     <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="user_deleted" jdbcType="BIT" property="userDeleted" />
     <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
     <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
   </resultMap>
@@ -71,7 +72,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, account, account_pinyin, password, salt, mobile, email, created_at, updated_at
+    id, account, account_pinyin, password, salt, mobile, email, user_deleted, created_at, 
+    updated_at
   </sql>
   <select id="selectByExample" parameterType="com.snsprj.sbsm.model.UserExample" resultMap="BaseResultMap">
     select
@@ -79,7 +81,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from users
+    from tb_user
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -90,15 +92,15 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from users
+    from tb_user
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from users
+    delete from tb_user
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.snsprj.sbsm.model.UserExample">
-    delete from users
+    delete from tb_user
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -107,18 +109,20 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into users (account, account_pinyin, password, 
+    insert into tb_user (account, account_pinyin, password, 
       salt, mobile, email, 
-      created_at, updated_at)
+      user_deleted, created_at, updated_at
+      )
     values (#{account,jdbcType=VARCHAR}, #{accountPinyin,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{salt,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
-      #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP})
+      #{userDeleted,jdbcType=BIT}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.snsprj.sbsm.model.User">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into users
+    insert into tb_user
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="account != null">
         account,
@@ -137,6 +141,9 @@
       </if>
       <if test="email != null">
         email,
+      </if>
+      <if test="userDeleted != null">
+        user_deleted,
       </if>
       <if test="createdAt != null">
         created_at,
@@ -164,6 +171,9 @@
       <if test="email != null">
         #{email,jdbcType=VARCHAR},
       </if>
+      <if test="userDeleted != null">
+        #{userDeleted,jdbcType=BIT},
+      </if>
       <if test="createdAt != null">
         #{createdAt,jdbcType=TIMESTAMP},
       </if>
@@ -173,13 +183,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.snsprj.sbsm.model.UserExample" resultType="java.lang.Long">
-    select count(*) from users
+    select count(*) from tb_user
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update users
+    update tb_user
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
@@ -202,6 +212,9 @@
       <if test="record.email != null">
         email = #{record.email,jdbcType=VARCHAR},
       </if>
+      <if test="record.userDeleted != null">
+        user_deleted = #{record.userDeleted,jdbcType=BIT},
+      </if>
       <if test="record.createdAt != null">
         created_at = #{record.createdAt,jdbcType=TIMESTAMP},
       </if>
@@ -214,7 +227,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update users
+    update tb_user
     set id = #{record.id,jdbcType=BIGINT},
       account = #{record.account,jdbcType=VARCHAR},
       account_pinyin = #{record.accountPinyin,jdbcType=VARCHAR},
@@ -222,6 +235,7 @@
       salt = #{record.salt,jdbcType=VARCHAR},
       mobile = #{record.mobile,jdbcType=VARCHAR},
       email = #{record.email,jdbcType=VARCHAR},
+      user_deleted = #{record.userDeleted,jdbcType=BIT},
       created_at = #{record.createdAt,jdbcType=TIMESTAMP},
       updated_at = #{record.updatedAt,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
@@ -229,7 +243,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.snsprj.sbsm.model.User">
-    update users
+    update tb_user
     <set>
       <if test="account != null">
         account = #{account,jdbcType=VARCHAR},
@@ -249,6 +263,9 @@
       <if test="email != null">
         email = #{email,jdbcType=VARCHAR},
       </if>
+      <if test="userDeleted != null">
+        user_deleted = #{userDeleted,jdbcType=BIT},
+      </if>
       <if test="createdAt != null">
         created_at = #{createdAt,jdbcType=TIMESTAMP},
       </if>
@@ -259,13 +276,14 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.snsprj.sbsm.model.User">
-    update users
+    update tb_user
     set account = #{account,jdbcType=VARCHAR},
       account_pinyin = #{accountPinyin,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
       salt = #{salt,jdbcType=VARCHAR},
       mobile = #{mobile,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
+      user_deleted = #{userDeleted,jdbcType=BIT},
       created_at = #{createdAt,jdbcType=TIMESTAMP},
       updated_at = #{updatedAt,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}

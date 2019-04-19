@@ -36,7 +36,6 @@ public class AdLdapTest {
         String password = "uusafe916";
         String baseDN = "OU=同福客栈,DC=test,DC=com";
 
-
         String[] returnedAttributes = {};
         String searchFilter = null;
 
@@ -58,7 +57,37 @@ public class AdLdapTest {
 
         List<ADTreeNode> nodeTree = OrganizationUtil.getOrganizationTree(recordList);
 
-        log.info("====>",nodeTree);
+        log.info("====>", nodeTree);
     }
 
+
+    /**
+     * 判断用户状态。false：用户被禁用；true：用户正常。 参考文档 https://support.microsoft.com/zh-cn/help/305144/how-to-use-useraccountcontrol-to-manipulate-user-account-properties
+     *
+     * @param userAccountControl userAccountControl
+     * @return boolean
+     * @author xiaohb
+     */
+    private boolean isUserEnable(int userAccountControl) {
+
+        if (userAccountControl == 2) {
+            return false;
+        }
+
+        return (userAccountControl <= 2) || (userAccountControl & 2) <= 0;
+    }
+
+    @Test
+    public void testIsUserEnable() {
+        int userAccountControl = 16777216;
+//        userAccountControl = 16777218;
+        userAccountControl = 514;
+//        userAccountControl = 1;
+//        userAccountControl = 2;
+
+        log.info("====>userAccountControl is {}", userAccountControl);
+        boolean userEnable = this.isUserEnable(userAccountControl);
+
+        log.info("userEnable is {}", userEnable);
+    }
 }

@@ -76,7 +76,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from user_info
+    from tb_user_info
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -87,15 +87,15 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from user_info
+    from tb_user_info
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from user_info
+    delete from tb_user_info
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.snsprj.sbsm.model.UserInfoExample">
-    delete from user_info
+    delete from tb_user_info
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -104,7 +104,7 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into user_info (user_id, nickname, avatar, 
+    insert into tb_user_info (user_id, nickname, avatar, 
       created_at, updated_at)
     values (#{userId,jdbcType=BIGINT}, #{nickname,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, 
       #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP})
@@ -113,7 +113,7 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into user_info
+    insert into tb_user_info
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="userId != null">
         user_id,
@@ -150,13 +150,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.snsprj.sbsm.model.UserInfoExample" resultType="java.lang.Long">
-    select count(*) from user_info
+    select count(*) from tb_user_info
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update user_info
+    update tb_user_info
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
@@ -182,7 +182,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update user_info
+    update tb_user_info
     set id = #{record.id,jdbcType=BIGINT},
       user_id = #{record.userId,jdbcType=BIGINT},
       nickname = #{record.nickname,jdbcType=VARCHAR},
@@ -194,7 +194,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.snsprj.sbsm.model.UserInfo">
-    update user_info
+    update tb_user_info
     <set>
       <if test="userId != null">
         user_id = #{userId,jdbcType=BIGINT},
@@ -215,7 +215,7 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.snsprj.sbsm.model.UserInfo">
-    update user_info
+    update tb_user_info
     set user_id = #{userId,jdbcType=BIGINT},
       nickname = #{nickname,jdbcType=VARCHAR},
       avatar = #{avatar,jdbcType=VARCHAR},

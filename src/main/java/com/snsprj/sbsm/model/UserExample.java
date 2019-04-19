@@ -585,6 +585,66 @@ public class UserExample {
             return (Criteria) this;
         }
 
+        public Criteria andUserDeletedIsNull() {
+            addCriterion("user_deleted is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserDeletedIsNotNull() {
+            addCriterion("user_deleted is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserDeletedEqualTo(Boolean value) {
+            addCriterion("user_deleted =", value, "userDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserDeletedNotEqualTo(Boolean value) {
+            addCriterion("user_deleted <>", value, "userDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserDeletedGreaterThan(Boolean value) {
+            addCriterion("user_deleted >", value, "userDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserDeletedGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("user_deleted >=", value, "userDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserDeletedLessThan(Boolean value) {
+            addCriterion("user_deleted <", value, "userDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserDeletedLessThanOrEqualTo(Boolean value) {
+            addCriterion("user_deleted <=", value, "userDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserDeletedIn(List<Boolean> values) {
+            addCriterion("user_deleted in", values, "userDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserDeletedNotIn(List<Boolean> values) {
+            addCriterion("user_deleted not in", values, "userDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserDeletedBetween(Boolean value1, Boolean value2) {
+            addCriterion("user_deleted between", value1, value2, "userDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserDeletedNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("user_deleted not between", value1, value2, "userDeleted");
+            return (Criteria) this;
+        }
+
         public Criteria andCreatedAtIsNull() {
             addCriterion("created_at is null");
             return (Criteria) this;

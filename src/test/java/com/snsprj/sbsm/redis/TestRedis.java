@@ -1,6 +1,5 @@
 package com.snsprj.sbsm.redis;
 
-import com.snsprj.sbsm.utils.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;

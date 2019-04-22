@@ -1,5 +1,6 @@
-package com.snsprj.sbsm.mapper;
+package com.snsprj.sbsm.dao;
 
+import com.snsprj.sbsm.mapper.UserMapper;
 import com.snsprj.sbsm.model.User;
 import com.snsprj.sbsm.model.UserExample;
 import java.util.List;
@@ -9,13 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
- * 自定义Mapper方法
+ * 封装 UserMapper 接口
  *
  * @author xiaohb
  */
 @Slf4j
 @Component
-public class UserManualMapper {
+public class UserDao {
 
     @Autowired
     private UserMapper userMapper;

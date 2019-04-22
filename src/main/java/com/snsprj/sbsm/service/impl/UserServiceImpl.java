@@ -2,7 +2,7 @@ package com.snsprj.sbsm.service.impl;
 
 import com.snsprj.sbsm.common.ServerResponse;
 import com.snsprj.sbsm.vo.UserVo;
-import com.snsprj.sbsm.mapper.UserManualMapper;
+import com.snsprj.sbsm.dao.UserDao;
 import com.snsprj.sbsm.mapper.UserMapper;
 import com.snsprj.sbsm.model.User;
 import com.snsprj.sbsm.service.UserService;
@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Autowired
-    private UserManualMapper userManualMapper;
+    private UserDao userManualMapper;
 
     @Override
     public ServerResponse createUser(UserVo userVo) {

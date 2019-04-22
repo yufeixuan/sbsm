@@ -1,4 +1,4 @@
-package com.snsprj.sbsm.utils;
+package com.snsprj.sbsm.redis;
 
 import java.util.List;
 import java.util.Map;
@@ -251,7 +251,7 @@ public final class RedisUtil {
     }
 
     /**
-     * 项一张hash表中放入数据，如果不存在将创建
+     * 向一张hash表中放入数据，如果不存在将创建。多用于存放对象。
      *
      * @param key 键
      * @param item 项

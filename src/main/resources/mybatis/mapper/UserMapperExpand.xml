@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.snsprj.sbsm.mapper.UserMapperExpand">
+  <resultMap id="BaseResultMap" type="com.snsprj.sbsm.model.User">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="account" jdbcType="VARCHAR" property="account" />
+    <result column="account_pinyin" jdbcType="VARCHAR" property="accountPinyin" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="salt" jdbcType="VARCHAR" property="salt" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="is_deleted" jdbcType="BIT" property="userIsDeleted" />
+    <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, account, account_pinyin, password, salt, mobile, email, is_deleted, created_at, 
+    updated_at
+  </sql>
+
+
+</mapper>

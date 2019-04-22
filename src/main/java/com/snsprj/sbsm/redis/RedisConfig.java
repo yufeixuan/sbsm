@@ -1,4 +1,4 @@
-package com.snsprj.sbsm.config;
+package com.snsprj.sbsm.redis;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.PropertyAccessor;

@@ -1,7 +1,7 @@
 package com.snsprj.sbsm.service.impl;
 
 import com.snsprj.sbsm.service.TestService;
-import com.snsprj.sbsm.utils.RedisUtil;
+import com.snsprj.sbsm.redis.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
